@@ -194,7 +194,7 @@ public class SignupFrame extends javax.swing.JFrame {
         newUser = new Instructor(id, username, email, hashed, "instructor");
     }
 
-    dbManager.addUser(newUser);  
+    dbManager.save(newUser);  
 
     JOptionPane.showMessageDialog(this, "Signup successful!");
 

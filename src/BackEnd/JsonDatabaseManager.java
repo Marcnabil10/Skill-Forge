@@ -107,21 +107,23 @@ public class JsonDatabaseManager implements DataBase {
 
 
     @Override
-    public void save(User user) {
+   public boolean save(User user) {
         this.usersCache = loadUsers(); 
         usersCache.add(user);
         saveUsersToFile();
+        return true;
     }
 
     @Override
-    public void save(Course course) {
+    public boolean save(Course course) {
         for (Course c : coursesCache) {
             if (c.getCourseId().equals(course.getCourseId())) {
-                return; 
+                return false; 
             }
         }
         coursesCache.add(course);
         saveCoursesToFile();
+        return true;
     }
 
     @Override

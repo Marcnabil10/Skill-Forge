@@ -20,7 +20,7 @@ public class InstructorService {
         Course newCourse = new Course(courseId, title, description, instructor.getUserId());
         System.out.println("Course object created: " + newCourse.getTitle());
         
-        boolean saveSuccess = dbManager.saveCourse(newCourse);
+        boolean saveSuccess = dbManager.save(newCourse);
         System.out.println("Database save success: " + saveSuccess);
         
         if (saveSuccess) {
@@ -48,7 +48,7 @@ public class InstructorService {
         }
         
         course.getLessons().add(newLesson);
-        boolean success = dbManager.updateCourse(course);
+        boolean success = dbManager.update(course);
         System.out.println("Lesson added: " + success);
         return success;
     }
@@ -63,7 +63,7 @@ public class InstructorService {
         course.setTitle(newTitle);
         course.setDescription(newDescription);
         
-        boolean success = dbManager.updateCourse(course);
+        boolean success = dbManager.update(course);
         System.out.println("Course updated: " + success);
         return success;
     }
@@ -102,7 +102,7 @@ public class InstructorService {
             if (lesson.getLessonId().equals(lessonId)) {
                 lesson.setTitle(newTitle);
                 lesson.setContent(newContent);
-                boolean success = dbManager.updateCourse(course);
+                boolean success = dbManager.update(course);
                 System.out.println("Lesson updated: " + success);
                 return success;
             }
@@ -135,7 +135,7 @@ public class InstructorService {
         }
         
         if (found) {
-            boolean success = dbManager.updateCourse(course);
+            boolean success = dbManager.update(course);
             System.out.println("Lesson deleted: " + success);
             return success;
         }

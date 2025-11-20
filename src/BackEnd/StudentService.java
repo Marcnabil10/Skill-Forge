@@ -26,8 +26,8 @@ public class StudentService {
 
             course.addStudent(student.getUserId());
 
-            boolean studentSaved = dbManager.updateUser(student);
-            boolean courseSaved = dbManager.updateCourse(course);
+            boolean studentSaved = dbManager.update(student);
+            boolean courseSaved = dbManager.update(course);
             
             if (studentSaved && courseSaved) {
                 JOptionPane.showMessageDialog(null, "Successfully enrolled student in course");
@@ -68,7 +68,7 @@ public class StudentService {
         }
         student.markLessonCompleted(course.getCourseId(), lesson.getLessonId());
         
-        boolean saved = dbManager.updateUser(student);
+        boolean saved = dbManager.update(student);
         if (!saved) {
             JOptionPane.showMessageDialog(null, "Failed to save progress to database");
           

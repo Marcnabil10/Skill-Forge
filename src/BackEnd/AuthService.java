@@ -16,7 +16,7 @@ public class AuthService {
         String userId = "id" + System.currentTimeMillis();
         user.setUserId(userId);
         user.setPasswordHash(PasswordHasher.hashPassword(user.getPasswordHash()));
-        dbManager.addUser(user);
+        dbManager.save(user);
         return true;
     }
 

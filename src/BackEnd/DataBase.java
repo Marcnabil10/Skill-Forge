@@ -11,8 +11,8 @@ import java.util.List;
  * @author marcn
  */
 public interface DataBase {
-    void save(User user);
-    void save(Course course);
+    boolean save(User user);
+    boolean save(Course course);
     boolean update(User user);
     boolean update(Course course);
     boolean deleteCourse(String courseId);
