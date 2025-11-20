@@ -51,6 +51,7 @@ public class SignupFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 0, 0));
         jLabel1.setText("create your account");
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
@@ -70,6 +71,7 @@ public class SignupFrame extends javax.swing.JFrame {
             }
         });
 
+        signup.setForeground(new java.awt.Color(51, 204, 0));
         signup.setText("Signup");
         signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

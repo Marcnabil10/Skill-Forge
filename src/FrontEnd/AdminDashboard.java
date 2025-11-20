@@ -77,6 +77,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 255));
         jLabel1.setText("Admin Dashboard");
 
         jButton1.setText("View pending courses");
@@ -100,6 +101,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setForeground(new java.awt.Color(204, 0, 51));
         jButton4.setText("Logout");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

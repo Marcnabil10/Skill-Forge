@@ -56,6 +56,7 @@ public class Rejected extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
         jLabel1.setText("Rejected Courses");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

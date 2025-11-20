@@ -66,6 +66,7 @@ public class ReviewCourses extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 0));
         jLabel1.setText("Review Courses");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -88,6 +89,7 @@ public class ReviewCourses extends javax.swing.JPanel {
 
         lblInstructor.setText("...");
 
+        btnApprove.setForeground(new java.awt.Color(102, 255, 0));
         btnApprove.setText("Approve");
         btnApprove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +97,7 @@ public class ReviewCourses extends javax.swing.JPanel {
             }
         });
 
+        btnReject.setForeground(new java.awt.Color(255, 0, 0));
         btnReject.setText("Reject");
         btnReject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,9 +124,6 @@ public class ReviewCourses extends javax.swing.JPanel {
                         .addGap(58, 58, 58)
                         .addComponent(btnReject))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(144, 144, 144)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -145,7 +145,10 @@ public class ReviewCourses extends javax.swing.JPanel {
                         .addComponent(lblStats))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(163, 163, 163)
-                        .addComponent(btnBack)))
+                        .addComponent(btnBack))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(jLabel1)))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

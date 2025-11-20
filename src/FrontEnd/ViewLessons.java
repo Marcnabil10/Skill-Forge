@@ -65,6 +65,7 @@ public class ViewLessons extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setText("Lessons included in your course");
 
         lessonsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -88,14 +89,14 @@ public class ViewLessons extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(lessonsTable);
 
-        back.setText("back");
+        back.setText("Back");
         back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backActionPerformed(evt);
             }
         });
 
-        Markcompleted.setText("Markcompleted ");
+        Markcompleted.setText("Mark completed ");
         Markcompleted.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MarkcompletedActionPerformed(evt);

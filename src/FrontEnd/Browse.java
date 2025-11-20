@@ -61,6 +61,7 @@ public class Browse extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 204, 204));
         jLabel1.setText("Select a course to enroll into");
 
         coursesTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -91,6 +92,7 @@ public class Browse extends javax.swing.JFrame {
             }
         });
 
+        enroll.setForeground(new java.awt.Color(0, 0, 102));
         enroll.setText("Enroll");
         enroll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

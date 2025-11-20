@@ -54,6 +54,7 @@ public class Approved extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 255, 102));
         jLabel1.setText("Approved Courses");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
