@@ -14,12 +14,17 @@ import org.json.JSONObject;
  * @author marcn
  */
 public class Course {
+     public static final String STATUS_PENDING="PENDING";
+     public static final String STATUS_APPROVED="APPROVED";
+      public static final String STATUS_REJECTED="REJECTED";
+    
     private String courseId;
     private String title;
     private String description;
     private String instructorId;
     private List <Lesson> lessons;
     private List <String> students;
+    private String status;
 
    public Course(String courseId, String title, String description, String instructorId) {
     this.courseId = courseId;  
@@ -28,6 +33,7 @@ public class Course {
     this.instructorId = instructorId;
     this.lessons = new ArrayList<>();
     this.students = new ArrayList<>();
+    this.status=STATUS_PENDING;//byebda2 el course pending
 }
     public Course(JSONObject jsonObject) {
         this.courseId = jsonObject.optString("courseId");
@@ -38,6 +44,13 @@ public class Course {
         this.students = new ArrayList<>();
         if (jsonObject.has("students")) {
             this.students.addAll(jsonObject.getJSONArray("students").toList().stream().map(Object::toString).toList());
+        }
+        String status=jsonObject.optString("status", STATUS_PENDING);
+        if(status.equals(STATUS_APPROVED)||status.equals(STATUS_REJECTED)){
+            this.status=status;
+        }
+        else{
+            this.status=STATUS_PENDING;
         }
         if (jsonObject.has("lessons")) {
             JSONArray lessonsArray = jsonObject.getJSONArray("lessons");
@@ -119,6 +132,7 @@ public class Course {
         json.put("title", title);
         json.put("description", description);
         json.put("instructorId", instructorId);
+        json.put("status", this.status);
         
         JSONArray lessonsArray = new JSONArray();
         for (Lesson lesson : this.lessons) {
@@ -137,6 +151,15 @@ public class Course {
         
         return json;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    
     
     
     
