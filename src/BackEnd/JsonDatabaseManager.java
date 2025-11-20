@@ -1,20 +1,19 @@
 package BackEnd;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 
-public class JsonDatabaseManager {
+public class JsonDatabaseManager implements DataBase { 
 
     private final Path userPath;
     private final Path coursesPath;
-
     private List<User> usersCache;
     private List<Course> coursesCache;
 
@@ -38,11 +37,11 @@ public class JsonDatabaseManager {
                 Files.write(p, defaultContent.getBytes(), StandardOpenOption.CREATE);
             }
         } catch (IOException e) {
-            throw new RuntimeException("failed to create database file " + p, e);
+            throw new RuntimeException("Failed to create database file " + p, e);
         }
     }
 
-    public List<User> loadUsers() {
+    private List<User> loadUsers() {
         try {
             String content = Files.readString(userPath);
             JSONArray arr = new JSONArray(content);
@@ -50,12 +49,15 @@ public class JsonDatabaseManager {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 String role = obj.optString("role", "");
+                
                 if (role.equalsIgnoreCase("student")) {
                     list.add(new Student(obj));
                 } else if (role.equalsIgnoreCase("instructor")) {
                     list.add(new Instructor(obj));
+                } else if (role.equalsIgnoreCase("admin")) { 
+                    list.add(new Admin(obj));
                 } else {
-                    list.add(new Student(obj)); // fallback
+                    list.add(new Student(obj)); 
                 }
             }
             return list;
@@ -64,7 +66,7 @@ public class JsonDatabaseManager {
         }
     }
 
-    public List<Course> loadCourses() {
+    private List<Course> loadCourses() {
         try {
             String content = Files.readString(coursesPath);
             JSONArray arr = new JSONArray(content);
@@ -74,11 +76,12 @@ public class JsonDatabaseManager {
             }
             return list;
         } catch (Exception e) {
-            throw new RuntimeException("failed to load courses", e);
+            throw new RuntimeException("Failed to load courses", e);
         }
     }
 
-    public void saveUsers() {
+
+    private void saveUsersToFile() {
         JSONArray arr = new JSONArray();
         for (User u : usersCache) {
             arr.put(u.toJSON());
@@ -86,11 +89,11 @@ public class JsonDatabaseManager {
         try {
             Files.writeString(userPath, arr.toString(4));
         } catch (Exception e) {
-            throw new RuntimeException("failed to save users", e);
+            throw new RuntimeException("Failed to save users", e);
         }
     }
 
-    public void saveCourses() {
+    private void saveCoursesToFile() {
         JSONArray arr = new JSONArray();
         for (Course c : coursesCache) {
             arr.put(c.toJSON());
@@ -98,107 +101,70 @@ public class JsonDatabaseManager {
         try {
             Files.writeString(coursesPath, arr.toString(4));
         } catch (IOException e) {
-            throw new RuntimeException("failed to save courses", e);
+            throw new RuntimeException("Failed to save courses", e);
         }
     }
 
-    public List<User> getAllUsers() {
-        return usersCache;
-    }
 
-    public List<Course> getAllCourses() {
-        return coursesCache;
-    }
-
-    public void addUser(User user) {
-        this.usersCache = loadUsers();
+    @Override
+    public void save(User user) {
+        this.usersCache = loadUsers(); 
         usersCache.add(user);
-        saveUsers();
+        saveUsersToFile();
     }
 
-    public boolean saveCourse(Course course) {
+    @Override
+    public void save(Course course) {
         for (Course c : coursesCache) {
             if (c.getCourseId().equals(course.getCourseId())) {
-                return false;
+                return; 
             }
         }
         coursesCache.add(course);
-        saveCourses();
-        return true;
+        saveCoursesToFile();
     }
 
-    public boolean updateCourse(Course updatedCourse) {
+    @Override
+    public boolean update(User updatedUser) {
+        for (int i = 0; i < usersCache.size(); i++) {
+            User currentUser = usersCache.get(i);
+            if (currentUser.getUserId().equals(updatedUser.getUserId())) {
+                usersCache.set(i, updatedUser);
+                saveUsersToFile();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update(Course updatedCourse) {
         for (int i = 0; i < coursesCache.size(); i++) {
             if (coursesCache.get(i).getCourseId().equals(updatedCourse.getCourseId())) {
                 coursesCache.set(i, updatedCourse);
-                saveCourses();
+                saveCoursesToFile();
                 return true;
             }
         }
         return false;
     }
 
-    public boolean updateUser(User updatedUser) {
-        System.out.println("=== updateUser called ===");
-        System.out.println("Updating user ID: " + updatedUser.getUserId());
-        System.out.println("User type: " + updatedUser.getClass().getSimpleName());
-        
-        for (int i = 0; i < usersCache.size(); i++) {
-            User currentUser = usersCache.get(i);
-            System.out.println("Checking user: " + currentUser.getUserId() + " type: " + currentUser.getClass().getSimpleName());
-            
-            if (currentUser.getUserId().equals(updatedUser.getUserId())) {
-                System.out.println("Found matching user, updating...");
-                usersCache.set(i, updatedUser);
-                saveUsers();
-                System.out.println("User update completed successfully");
-                return true;
-            }
-        }
-        System.out.println("=== FAILED: User not found in cache ===");
-        return false;
-    }
-
-    public User findUserByEmail(String email) {
-        for (User u : usersCache) {
-            if (u.getEmail().equalsIgnoreCase(email)) {
-                return u;
-            }
-        }
-        return null;
-    }
-
-    public Course getCourseById(String id) {
-        if (id == null) return null;
-        
-        for (Course c : coursesCache) {
-            if (id.equals(c.getCourseId())) {
-                return c;
-            }
-        }
-        return null;
-    }
-
+    @Override
     public boolean deleteCourse(String id) {
         if (id == null) return false;
-        
         for (int i = 0; i < coursesCache.size(); i++) {
             if (coursesCache.get(i).getCourseId().equals(id)) {
                 coursesCache.remove(i);
-                saveCourses();
+                saveCoursesToFile();
                 return true;
             }
         }
         return false;
     }
 
-    public String generateUniqueId() {
-        return java.util.UUID.randomUUID().toString();
-    }
-
+    @Override
     public User getUserById(String id) {
         if (id == null) return null;
-        
         for (User u : usersCache) {
             if (u.getUserId().equals(id)) {
                 return u;
@@ -207,6 +173,28 @@ public class JsonDatabaseManager {
         return null;
     }
 
+    @Override
+    public Course getCourseById(String id) {
+        if (id == null) return null;
+        for (Course c : coursesCache) {
+            if (id.equals(c.getCourseId())) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return usersCache;
+    }
+
+    @Override
+    public List<Course> getAllCourses() {
+        return coursesCache;
+    }
+
+    @Override
     public User findUserByUsername(String username) {
         for (User u : usersCache) {
             if (u.getUsername().equalsIgnoreCase(username)) {
@@ -214,5 +202,18 @@ public class JsonDatabaseManager {
             }
         }
         return null;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        for (User u : usersCache) {
+            if (u.getEmail().equalsIgnoreCase(email)) {
+                return u;
+            }
+        }
+        return null;
+    }
+    public String generateUniqueId() {
+        return java.util.UUID.randomUUID().toString();
     }
 }
