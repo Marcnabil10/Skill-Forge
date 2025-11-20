@@ -8,11 +8,13 @@ import java.util.HashMap;
 public class Student extends User {
     private ArrayList<Course> enrolledCourses;
     private HashMap<String, ArrayList<String>> progress; 
+    private ArrayList<Certificate> certificates;
 
     public Student(String username, String userID, String email, String passwordHash, String role) {
         super(username, userID, email, passwordHash, role);
         this.enrolledCourses = new ArrayList<>();
         this.progress = new HashMap<>();
+        this.certificates = new ArrayList<>();
     }
 
     public Student(JSONObject obj) {
@@ -22,9 +24,19 @@ public class Student extends User {
             obj.optString("email"),
             obj.optString("passwordHash"),
             obj.optString("role")
+                
         );
         this.enrolledCourses = new ArrayList<>();
         this.progress = new HashMap<>();
+        this.certificates = new ArrayList<>();
+        if (obj.has("certificates")) {
+    JSONArray certsArray = obj.getJSONArray("certificates");
+    for (int i = 0; i < certsArray.length(); i++) {
+        JSONObject certJson = certsArray.getJSONObject(i);
+        Certificate cert = new Certificate(certJson);
+        this.certificates.add(cert);
+    }
+        }
         
         
         if (obj.has("enrolledCourses")) {
@@ -53,7 +65,11 @@ public class Student extends User {
     @Override
     public JSONObject toJSON() {
         JSONObject json = super.toJSON();
-        
+        JSONArray certsArray = new JSONArray();
+for (Certificate cert : this.certificates) {
+    certsArray.put(cert.toJSON());
+}
+json.put("certificates", certsArray);
       
         JSONArray coursesArray = new JSONArray();
         for (Course course : this.enrolledCourses) {
@@ -138,4 +154,11 @@ public class Student extends User {
     public ArrayList<String> getCompletedLessons(String courseId) {
         return progress.getOrDefault(courseId, new ArrayList<>());
     }
+    public ArrayList<Certificate> getCertificates() {
+    return certificates;
 }
+
+     public void addCertificate(Certificate certificate) {
+    this.certificates.add(certificate);
+    }
+    }
