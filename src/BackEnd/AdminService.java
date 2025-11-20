@@ -21,7 +21,7 @@ public class AdminService {
         List<Course> allCourses=db.getAllCourses();
         List<Course> pendingCourses=new ArrayList<>();
         for(Course course:allCourses){
-            if(course.getStatus().equals(Course.STATUS_PENDING))
+            if (course.getStatus().equalsIgnoreCase(Course.STATUS_PENDING))
                 pendingCourses.add(course);
         }
         return pendingCourses;
