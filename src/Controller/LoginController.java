@@ -52,6 +52,10 @@ public class LoginController {
     public Course getCourseById(String courseId) {
         return dbManager.getCourseById(courseId);
     }
+    
+    public User getUserByName(String name){
+        return dbManager.findUserByUsername(name);
+    }
 
     public boolean enrollInCourse(Student student, Course course) {
         return studentService.enrollInCourse(student, course);

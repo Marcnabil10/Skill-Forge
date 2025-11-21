@@ -4,7 +4,6 @@
  */
 package FrontEnd;
     
-import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
 
 import Controller.LoginController;
@@ -23,9 +22,7 @@ public class StudentManagement extends javax.swing.JFrame {
         this.controller = controller;
 
     }
-    public StudentManagement(){
-       
-    }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.

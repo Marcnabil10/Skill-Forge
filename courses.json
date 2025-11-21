@@ -1,47 +1,48 @@
 [
     {
-        "instructor": "3545b716-be2a-444b-a66d-63162d9d8ca9",
-        "description": "dddd",
-        "students": ["57e52b24-1cdb-4be4-ba86-8f95ec98ad14"],
-        "title": "programming",
-        "courseId": "db6e6128-358e-42c8-90d9-18bc12f9484f",
+        "instructor": "marc",
+        "description": "wwww",
+        "students": ["d75470b4-f7f1-467f-a2d1-ef4547f55810"],
+        "title": "prog1",
+        "courseId": "eda1bda0-2f91-45b2-bf52-da34cb3c0784",
+        "status": "APPROVED",
+        "lessons": [
+            {
+                "lessonId": "726013b9-9181-48ef-81d0-c0686971cdc2",
+                "resources": [],
+                "title": "lesson1",
+                "content": "ff"
+            },
+            {
+                "lessonId": "1327a6e5-c797-4322-8129-ea3346db42c4",
+                "resources": [],
+                "title": "lesson2",
+                "content": "ww"
+            },
+            {
+                "lessonId": "ea94ad7d-38bd-47f8-bdd2-5be4d4ed84db",
+                "resources": [],
+                "title": "lesson3",
+                "content": "tt"
+            }
+        ]
+    },
+    {
+        "instructor": "marc",
+        "description": "eeee",
+        "students": ["d75470b4-f7f1-467f-a2d1-ef4547f55810"],
+        "title": "prog2",
+        "courseId": "bae9a419-08cb-4011-8350-d4274b96d6a1",
         "status": "APPROVED",
         "lessons": []
     },
     {
-        "instructor": "3545b716-be2a-444b-a66d-63162d9d8ca9",
+        "instructor": "marc",
         "description": "ssss",
         "students": [],
-        "title": "signals",
-        "courseId": "2369a5c0-24ce-4f78-a4ee-008c67fe6124",
+        "title": "dataStructure",
+        "courseId": "c481e783-9558-4094-afde-ba5e3d09e184",
         "status": "PENDING",
-        "lessons": []
-    },
-    {
-        "instructor": "3545b716-be2a-444b-a66d-63162d9d8ca9",
-        "description": "gggg",
-        "students": [],
-        "title": "Logic2",
-        "courseId": "14f93a8a-9bd0-44e8-8845-cd3c4ffb1320",
-        "status": "APPROVED",
-        "lessons": []
-    },
-    {
-        "instructor": "d5dbcad3-1474-47ed-974b-4b984bfc380b",
-        "description": "fffff",
-        "students": [],
-        "title": "prog2",
-        "courseId": "af4b4ad2-5143-4f36-8d91-4663c9fcaff7",
-        "status": "REJECTED",
-        "lessons": []
-    },
-    {
-        "instructor": "d5dbcad3-1474-47ed-974b-4b984bfc380b",
-        "description": "hghggh",
-        "students": [],
-        "title": "logic1",
-        "courseId": "8fcecec7-3381-4f09-a5e8-8dc5f5b908d3",
-        "status": "APPROVED",
         "lessons": []
     }
 ]

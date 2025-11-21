@@ -60,7 +60,7 @@ public class StudentService {
     }
     
     public boolean markLessonCompleted(Student student, Course course, Lesson lesson) {
-       JOptionPane.showMessageDialog(null, "Marking lesson " + lesson.getLessonId() + " as completed for student " + student.getUserId());
+       JOptionPane.showMessageDialog(null, "Marking lesson " + lesson.getTitle()+ " as completed for student " + student.getUsername());
         
         if (student == null || course == null || lesson == null) {
             System.out.println("Error: Student, course, or lesson is null");
@@ -83,7 +83,7 @@ public class StudentService {
             return false;
         }
         boolean completed = student.isLessonCompleted(course.getCourseId(), lesson.getLessonId());
-        JOptionPane.showMessageDialog(null, "Lesson " + lesson.getLessonId() + " completed: " + completed);
+        //JOptionPane.showMessageDialog(null, "Lesson " + lesson.getLessonId() + " completed: " + completed);
         return completed;
     }
     
