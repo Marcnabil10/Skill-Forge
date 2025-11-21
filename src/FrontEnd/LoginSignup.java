@@ -5,18 +5,21 @@
 package FrontEnd;
 import BackEnd.*;
 
+
 /**
  *
  * @author Your Name < sophie >
  */
 public class LoginSignup extends javax.swing.JFrame {
-    private JsonDatabaseManager dbManager;
+
+    private Controller.LoginController controller;
+
     /**
      * Creates new form LoginSignup
      */
-    public LoginSignup(JsonDatabaseManager dbManager) {
+    public LoginSignup(Controller.LoginController controller) {
         initComponents();
-        this.dbManager = dbManager;
+        this.controller = controller;
     }
 
     /**
@@ -83,31 +86,29 @@ public class LoginSignup extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void loginActionPerformed(java.awt.event.ActionEvent evt) {                                      
-    LoginFrame loginFrame = new LoginFrame(dbManager);  
-    loginFrame.setVisible(true);  
-    this.dispose();  
+    private void loginActionPerformed(java.awt.event.ActionEvent evt) {
+        LoginFrame loginFrame = new LoginFrame(controller);
+        loginFrame.setVisible(true);
+        this.dispose();
+    }
 
-    }                                     
 
-    private void signupActionPerformed(java.awt.event.ActionEvent evt) {                                       
-      
-        SignupFrame signupFrame = new SignupFrame(dbManager);  
-        signupFrame.setVisible(true);  
-        this.dispose();   
-    }                                      
+    private void signupActionPerformed(java.awt.event.ActionEvent evt) {
+        SignupFrame signupFrame = new SignupFrame(controller);
+        signupFrame.setVisible(true);
+        this.dispose();
+    }
+
 
     /**
      * @param args the command line arguments
      */
-   public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(() -> {
-
-        BackEnd.JsonDatabaseManager db = new BackEnd.JsonDatabaseManager("users.json", "courses.json");
-
-        new LoginSignup(db).setVisible(true);
-    });
-}
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> {
+            Controller.LoginController controller = new Controller.LoginController();
+            new LoginSignup(controller).setVisible(true);
+        });
+    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel jLabel1;

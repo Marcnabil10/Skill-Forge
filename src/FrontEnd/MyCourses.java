@@ -5,9 +5,11 @@
 package FrontEnd;
 
 import BackEnd.Course;
-import BackEnd.JsonDatabaseManager;
+
 import BackEnd.Student;
-import BackEnd.StudentService;
+
+import Controller.LoginController;
+
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,26 +19,24 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MyCourses extends javax.swing.JFrame {
     private Student currentStudent;
-    private StudentService studentService;
-    private JsonDatabaseManager dbManager;
+    private LoginController controller;
     private StudentManagement dashboard;
     /**
      * Creates new form MyCourses
      */
-    public MyCourses(Student student, StudentService studentService, JsonDatabaseManager db, StudentManagement dashboard) {
+    public MyCourses(Student student,Controller.LoginController controller, StudentManagement dashboard) {
         initComponents();
         this.currentStudent = student;
-        this.studentService = studentService;
-        this.dbManager = db;
+        this.controller=controller;
         this.dashboard = dashboard;
         loadEnrolled();
     }
-       private void loadEnrolled() {
-        ArrayList<Course> enrolled = studentService.getEnrolledCourses(currentStudent);
-        DefaultTableModel model = (DefaultTableModel) myCoursesTable.getModel(); // ensure table name
+    private void loadEnrolled() {
+        ArrayList<Course> enrolled = controller.getEnrolledCourses(currentStudent);
+        DefaultTableModel model = (DefaultTableModel) myCoursesTable.getModel();
         model.setRowCount(0);
         for (Course c : enrolled) {
-            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getLessons().size()});
+            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getDescription()});
         }
     }
     /**
@@ -123,12 +123,12 @@ public class MyCourses extends javax.swing.JFrame {
         dashboard.setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
-    private void ViewlessonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewlessonsActionPerformed
+    private void ViewlessonsActionPerformed(java.awt.event.ActionEvent evt) {
         int sel = myCoursesTable.getSelectedRow();
         if (sel < 0) return;
         String courseId = (String) myCoursesTable.getValueAt(sel, 0);
-        Course c = dbManager.getCourseById(courseId);
-        new ViewLessons(currentStudent, studentService, dbManager, dashboard, c).setVisible(true);
+        Course c = controller.getCourseById(courseId);
+        new ViewLessons(currentStudent, controller, dashboard, c).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_ViewlessonsActionPerformed
 

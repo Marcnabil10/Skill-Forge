@@ -8,25 +8,26 @@ import BackEnd.Student;
 import java.util.List;
 import javax.swing.JOptionPane;
 import BackEnd.JsonDatabaseManager;
+import Controller.LoginController;
 
 
 public class InstructorDashboard extends javax.swing.JFrame {
     private Instructor currentI;
-    private InstructorService instructorService;
     private LoginFrame loginFrame;
-    private JsonDatabaseManager dbManager;
+    private LoginController controller;
+
+
 
     /**
      * PRIMARY CONSTRUCTOR: Takes all required service objects.
      */
-    public InstructorDashboard(Instructor instructor, InstructorService service, JsonDatabaseManager db, LoginFrame loginFrame) {
+    public InstructorDashboard(Instructor instructor, LoginController controller,LoginFrame loginFrame) {
         initComponents();
-        this.currentI=instructor;
-        this.instructorService=service;
+        this.currentI = instructor;
+        this.controller = controller;
         this.loginFrame=loginFrame;
-        this.dbManager=db;
-        
     }
+
     public InstructorDashboard(){
     
     }
@@ -36,7 +37,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Id is empty");
             return null;
         }
-        Course course = dbManager.getCourseById(courseId);
+        Course course = controller.getCourseById(courseId);
       if (course == null) {
             JOptionPane.showMessageDialog(this, "Error: Course not found.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return null;
@@ -173,7 +174,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
     }
     
     try {
-        boolean success = instructorService.createCourse(title, description, currentI);
+        boolean success = controller.createCourse(title, description, currentI);
         if (success) {
             JOptionPane.showMessageDialog(this, "Course created successfully!");
         } else {
@@ -202,7 +203,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         );
         
         if (choice == JOptionPane.YES_OPTION) {
-            boolean success = instructorService.deleteCourse(courseToDelete.getCourseId(), currentI);
+            boolean success = controller.deleteCourse(courseToDelete.getCourseId(), currentI);
             
             if (success) {
                 JOptionPane.showMessageDialog(this, "Course deleted.");
@@ -233,7 +234,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             return;
         }
     
-        boolean success = instructorService.editCourse(courseId, newTitle, newDescription);
+        boolean success = controller.editCourse(courseId, newTitle, newDescription);
         
         if (success) {
             JOptionPane.showMessageDialog(this, "Course updated.");
@@ -253,8 +254,8 @@ public class InstructorDashboard extends javax.swing.JFrame {
             return;
         }
         CourseEditorFrame editor = new CourseEditorFrame(
-            instructorService, 
-            courseToManage
+                controller,
+                courseToManage
         );
     
         editor.setVisible(true);
@@ -275,7 +276,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         if (courseToView == null) {
             return; 
         }
-        List<Student> students = instructorService.getEnrolledStudents(courseToView.getCourseId());
+        List<Student> students = controller.getEnrolledStudents(courseToView.getCourseId());
         if (students.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No students are currently enrolled in this course.");
             return;
@@ -297,22 +298,23 @@ public class InstructorDashboard extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   public static void main(String args[]) {
-       
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-           
-                BackEnd.JsonDatabaseManager db = new BackEnd.JsonDatabaseManager("users.json", "courses.json");
-                
-            
-                BackEnd.InstructorService service = new BackEnd.InstructorService(db);
-                
-               
-                BackEnd.Instructor instructor = new BackEnd.Instructor("Test User", "I100", "test@app.com", "hash", "instructor");
-                
-                FrontEnd.LoginFrame login = new FrontEnd.LoginFrame(db); 
+                Controller.LoginController controller = new Controller.LoginController();
 
-                new InstructorDashboard(instructor, service, db, login).setVisible(true);
+
+                FrontEnd.LoginFrame login = new FrontEnd.LoginFrame();
+
+                BackEnd.Instructor instructor = new BackEnd.Instructor(
+                        "Test User",
+                        "I100",
+                        "test@app.com",
+                        "hash",
+                        "instructor"
+                );
+                new FrontEnd.InstructorDashboard(instructor, controller, login).setVisible(true);
+
             }
         });
     }

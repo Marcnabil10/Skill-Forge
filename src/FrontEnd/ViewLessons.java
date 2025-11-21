@@ -18,23 +18,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ViewLessons extends javax.swing.JFrame {
     private Student currentStudent;
-    private StudentService studentService;
-    private JsonDatabaseManager dbManager;
+    private Controller.LoginController controller;
     private StudentManagement dashboard;
     private Course currentCourse;
     /**
      * Creates new form ViewLessons
      */
-    public ViewLessons(Student student, StudentService studentService, JsonDatabaseManager db, StudentManagement dashboard) {
+    public ViewLessons(Student student, Controller.LoginController controller, StudentManagement dashboard)
+    {
         initComponents();
         this.currentStudent = student;
-        this.studentService = studentService;
-        this.dbManager = db;
+        this.controller = controller;
         this.dashboard = dashboard;
     }
-    
-      public ViewLessons(Student student, StudentService studentService, JsonDatabaseManager db, StudentManagement dashboard, Course course) {
-        this(student, studentService, db, dashboard);
+
+    public ViewLessons(Student student, Controller.LoginController controller, StudentManagement dashboard, Course course) {
+        this(student, controller, dashboard);
         this.currentCourse = course;
         loadLessons(course);
     }
@@ -43,7 +42,7 @@ public class ViewLessons extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) lessonsTable.getModel();
         model.setRowCount(0);
         for (Lesson L : course.getLessons()) {
-            boolean done = currentStudent.isLessonCompleted(course.getCourseId(), L.getLessonId());
+            boolean done = controller.isLessonCompleted(currentStudent, currentCourse, L);
             model.addRow(new Object[]{L.getLessonId(), L.getTitle(), done ? "Completed" : "Not completed"});
         }
     }
@@ -146,7 +145,7 @@ public class ViewLessons extends javax.swing.JFrame {
     }
     Lesson L = currentCourse.getLessons().get(sel);
 
-    boolean success = studentService.markLessonCompleted(currentStudent, currentCourse, L);
+    boolean success = controller.markLessonCompleted(currentStudent, currentCourse, L);
     if (success) {
         JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
         loadLessons(currentCourse); 

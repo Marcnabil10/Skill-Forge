@@ -163,7 +163,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
      this.dispose();
-     new LoginFrame(db).setVisible(true);
+        Controller.LoginController loginController = new Controller.LoginController();
+        new LoginFrame(loginController).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

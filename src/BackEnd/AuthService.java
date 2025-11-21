@@ -1,15 +1,21 @@
 package BackEnd;
 
 public class AuthService {
-    private static final JsonDatabaseManager dbManager = new JsonDatabaseManager("users.json", "courses.json");
+    private final JsonDatabaseManager dbManager ;
 
-    public static boolean isUsernameTaken(String username) {
+    public boolean isUsernameTaken(String username) {
         return dbManager.findUserByUsername(username) != null;
     }
-    public static boolean isEmailTaken(String email) {
+    public boolean isEmailTaken(String email) {
         return dbManager.findUserByEmail(email) != null;
     }
-    public static boolean signup(User user) {
+
+    public AuthService(JsonDatabaseManager dbManager) {
+        this.dbManager = dbManager;
+    }
+
+
+    public boolean signup(User user) {
         if (isUsernameTaken(user.getUsername()) || isEmailTaken(user.getEmail())) {
             return false;
         }
@@ -20,10 +26,13 @@ public class AuthService {
         return true;
     }
 
-        public static User login(String username, String password) {
-            User user = dbManager.findUserByUsername(username);
+        public  User login(String input, String password) {
+            User user = dbManager.findUserByUsername(input);
+
             if (user == null) {
-                return null;
+                user=dbManager.findUserByEmail(input);
+                if(user==null)
+                    return null;
             }
 
             if (!PasswordHasher.verifyPassword(password, user.getPasswordHash())) {

@@ -8,6 +8,8 @@ import BackEnd.Course;
 import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
 import BackEnd.StudentService;
+import Controller.LoginController;
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,27 +20,25 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Browse extends javax.swing.JFrame {
     private Student currentStudent;
-    private StudentService studentService;
-    private JsonDatabaseManager dbManager;
+    private Controller.LoginController controller;
     private StudentManagement dashboard;
     /**
      * Creates new form Browse
      */
-    public Browse(Student student, StudentService studentService, JsonDatabaseManager db, StudentManagement dashboard) {
+    public Browse(Student student, Controller.LoginController controller, StudentManagement dashboard) {
         initComponents();
         this.currentStudent = student;
-        this.studentService = studentService;
-        this.dbManager = db;
+        this.controller=controller;
         this.dashboard = dashboard;
         loadCourses();
     }
     
      private void loadCourses() {
-        ArrayList<Course> courses = studentService.getAllCourses();
+         ArrayList<Course> courses = controller.getAllCourses();
         DefaultTableModel model = (DefaultTableModel) coursesTable.getModel();
         model.setRowCount(0);
         for (Course c : courses) {
-            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getInstructorId(), c.getLessons().size()});
+            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getDescription()});
         }
     }
      
@@ -144,14 +144,14 @@ public class Browse extends javax.swing.JFrame {
         if (sel < 0) return;
 
         String courseId = (String) coursesTable.getValueAt(sel, 0);
-        Course c = dbManager.getCourseById(courseId);
+        Course c = controller.getCourseById(courseId);
         if (c == null) return;
         if (currentStudent.isEnrolledInCourse(courseId)) {
         JOptionPane.showMessageDialog(this, "You are already enrolled in this course!");
         return;
         }
 
-        boolean success = studentService.enrollInCourse(currentStudent, c);
+        boolean success =controller.enrollInCourse(currentStudent, c);
         if (success) {
             JOptionPane.showMessageDialog(this, "Enrollment successful!");
             loadCourses();

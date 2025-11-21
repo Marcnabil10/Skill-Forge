@@ -1,14 +1,14 @@
 
 package FrontEnd;
 
-import BackEnd.AuthService;
+
 import BackEnd.Instructor;
 import BackEnd.InstructorService;
-import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
 import BackEnd.StudentService;
 import BackEnd.User;
-import BackEnd.ValidationService;
+import Controller.LoginController;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -16,13 +16,18 @@ import javax.swing.JOptionPane;
  * @author abramehab
  */
 public class LoginFrame extends javax.swing.JFrame {
-    private JsonDatabaseManager dbManager;
+    private final LoginController controller;
     /**
      * Creates new form LoginFrame
      */
-    public LoginFrame(JsonDatabaseManager dbManager) {
+    public LoginFrame() {
         initComponents();
-        this.dbManager = dbManager;
+        this.controller = new LoginController(); // controller handles all backend
+    }
+    public LoginFrame(LoginController controller) {
+        this.controller = controller;
+        initComponents();
+        setLocationRelativeTo(null);
     }
     
    
@@ -111,14 +116,8 @@ public class LoginFrame extends javax.swing.JFrame {
         return;
     }
 
-    if (!ValidationService.isEmailValid(input) &&
-        !ValidationService.isUsernameValid(input)) {
-        JOptionPane.showMessageDialog(this, "Invalid username or email");
-        return;
-    }
 
-    AuthService auth = new AuthService();
-    User user = auth.login(input, password);
+        User user = controller.login(input, password);
 
     if (user == null) {
         JOptionPane.showMessageDialog(this, "Invalid credentials");
@@ -136,10 +135,12 @@ public class LoginFrame extends javax.swing.JFrame {
                 return;
             }
 
-            Student student = (Student) user;
-            StudentService studentService = new StudentService(this.dbManager);
-
-            StudentManagement dash = new StudentManagement(student, studentService, this.dbManager, this);
+            Student student = controller.getStudent(user); // controller ensures it's a student
+            if (student == null) {
+                JOptionPane.showMessageDialog(this, "User is not a student in backend");
+                return;
+            }
+            StudentManagement dash = new StudentManagement(student, controller);
 
             dash.setVisible(true);
             this.setVisible(false);
@@ -152,10 +153,12 @@ public class LoginFrame extends javax.swing.JFrame {
                 return;
             }
 
-            Instructor instructor = (Instructor) user;
-            InstructorService instructorService = new InstructorService(this.dbManager);
-
-            InstructorDashboard dash = new InstructorDashboard(instructor, instructorService, this.dbManager, this);
+            Instructor instructor = controller.getInstructor(user);
+            if (instructor == null) {
+                JOptionPane.showMessageDialog(this, "User is not an instructor in backend");
+                return;
+            }
+            InstructorDashboard dash = new InstructorDashboard(instructor, controller, this);
 
             dash.setVisible(true);
             this.setVisible(false);

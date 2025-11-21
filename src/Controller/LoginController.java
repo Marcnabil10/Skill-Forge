@@ -1,0 +1,123 @@
+package Controller;
+import BackEnd.AuthService;
+import BackEnd.ValidationService;
+import BackEnd.JsonDatabaseManager;
+import BackEnd.User;
+import BackEnd.*;
+import java.util.ArrayList;
+
+public class LoginController {
+    AuthService auth ;
+    private final JsonDatabaseManager dbManager;
+    private final StudentService studentService;
+
+    public LoginController() {
+        this.dbManager = new JsonDatabaseManager("users.json", "courses.json");
+        this.auth = new AuthService(dbManager);
+        this.studentService = new StudentService(dbManager);
+    }
+
+
+    public User login(String input, String password) {
+        if (!ValidationService.isEmailValid(input) && !ValidationService.isUsernameValid(input)) {
+            return null;
+        }
+        return auth.login(input, password);
+    }
+    public Student getStudent(User user) {
+        if (user instanceof Student) return (Student) user;
+        return null;
+    }
+
+    public Instructor getInstructor(User user) {
+        if (user instanceof Instructor) return (Instructor) user;
+        return null;
+    }
+    public ArrayList<Course> getAllCourses() {
+        return new ArrayList<>(dbManager.getAllCourses());
+    }
+    public Course getCourseById(String courseId) {
+        return dbManager.getCourseById(courseId);
+    }
+
+    public boolean enrollInCourse(Student student, Course course) {
+        return studentService.enrollInCourse(student, course);
+    }
+    public ArrayList<Course> getEnrolledCourses(Student student) {
+        return studentService.getEnrolledCourses(student);
+    }
+    public boolean createCourse(String title, String description, Instructor instructor) {
+        return new InstructorService(dbManager).createCourse(title, description, instructor);
+    }
+
+    public boolean editCourse(String courseId, String newTitle, String newDescription) {
+        return new InstructorService(dbManager).editCourse(courseId, newTitle, newDescription);
+    }
+
+    public boolean deleteCourse(String courseId, Instructor instructor) {
+        return new InstructorService(dbManager).deleteCourse(courseId, instructor);
+    }
+
+    public ArrayList<Student> getEnrolledStudents(String courseId) {
+        return new ArrayList<>(new InstructorService(dbManager).getEnrolledStudents(courseId));
+    }
+    public boolean addLesson(String courseId, String title, String content) {
+        return new InstructorService(dbManager).addLesson(courseId, title, content);
+    }
+
+    public boolean editLesson(String courseId, String lessonId, String newTitle, String newContent) {
+        return new InstructorService(dbManager).editLesson(courseId, lessonId, newTitle, newContent);
+    }
+
+    public boolean deleteLesson(String courseId, String lessonId) {
+        return new InstructorService(dbManager).deleteLesson(courseId, lessonId);
+    }
+
+    public ArrayList<Course> getMyCourses(String instructorId) {
+        return new ArrayList<>(new InstructorService(dbManager).getMyCourses(instructorId));
+    }
+
+    public boolean markLessonCompleted(Student student, Course course, Lesson lesson) {
+        return studentService.markLessonCompleted(student, course, lesson);
+    }
+
+
+    public boolean isLessonCompleted(Student student, Course course, Lesson lesson) {
+        return studentService.isLessonCompleted(student, course, lesson);
+    }
+
+
+    public ArrayList<String> getCompletedLessons(Student student, Course course) {
+        return studentService.getCompletedLessons(student, course);
+    }
+
+
+    public double getCourseProgress(Student student, Course course) {
+        return studentService.getCourseProgress(student, course);
+    }
+    public User getUserByUsername(String username) {
+        return dbManager.findUserByUsername(username);
+    }
+
+    public User getUserByEmail(String email) {
+        return dbManager.findUserByEmail(email);
+    }
+
+    public boolean saveUser(User user) {
+        return dbManager.save(user);
+    }
+
+    public String generateUniqueId() {
+        return dbManager.generateUniqueId();
+    }
+
+
+
+
+}
+
+
+
+
+
+

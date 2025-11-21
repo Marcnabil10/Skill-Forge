@@ -2,9 +2,8 @@
 package FrontEnd;
 
 import BackEnd.Course;
-import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
-import BackEnd.StudentService;
+import Controller.LoginController;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,17 +12,15 @@ import javax.swing.JOptionPane;
  */
 public class Progress extends javax.swing.JFrame {
     private Student currentStudent;
-    private StudentService studentService;
-    private JsonDatabaseManager dbManager;
+    private LoginController controller;
     private StudentManagement dashboard;
     /**
      * Creates new form Progress
      */
-    public Progress(Student student, StudentService studentService, JsonDatabaseManager db, StudentManagement dashboard) {
+    public Progress(Student student, LoginController controller, StudentManagement dashboard) {
         initComponents();
         this.currentStudent = student;
-        this.studentService = studentService;
-        this.dbManager = db;
+        this.controller = controller;
         this.dashboard = dashboard;
     }
     
@@ -108,25 +105,26 @@ public class Progress extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
         dashboard.setVisible(true);
-    }//GEN-LAST:event_backActionPerformed
+    }
 
-    private void ProgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProgressActionPerformed
-       String courseId = jTextField1.getText().trim();
+    private void ProgressActionPerformed(java.awt.event.ActionEvent evt) {
+        String courseId = jTextField1.getText().trim();
         if (courseId.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Enter course ID");
-           
+            return;
         }
-        Course c = dbManager.getCourseById(courseId);
+        Course c = controller.getCourseById(courseId);
         if (c == null) {
             JOptionPane.showMessageDialog(this, "Course not found");
-           
+            return;
         }
-        double percent = studentService.getCourseProgress(currentStudent, c);
-        JOptionPane.showMessageDialog(this,"Your progress in course '" + c.getTitle() + "' is: " + String.format("%.2f%%", percent));
-    }//GEN-LAST:event_ProgressActionPerformed
+        double percent = controller.getCourseProgress(currentStudent, c);
+        JOptionPane.showMessageDialog(this, "Your progress in course '" + c.getTitle() + "' is: " + String.format("%.2f%%", percent));
+    }
+//GEN-LAST:event_ProgressActionPerformed
 
    
 

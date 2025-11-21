@@ -3,6 +3,8 @@ package FrontEnd;
 import BackEnd.Course;
 import BackEnd.InstructorService;
 import BackEnd.Lesson;
+import Controller.LoginController;
+
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -12,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class CourseEditorFrame extends javax.swing.JFrame {
 
-    private InstructorService instructorService;
+    private LoginController controller;
     private Course course; 
     private InstructorDashboard dashboard;
 
@@ -27,8 +29,8 @@ public class CourseEditorFrame extends javax.swing.JFrame {
     private JTable lessonTable;
     private JScrollPane scrollPane;
 
-    public CourseEditorFrame(InstructorService instructorService, Course course) {
-        this.instructorService = instructorService;
+    public CourseEditorFrame(LoginController controller, Course course) {
+        this.controller = controller;
         this.course = course;
 
         initComponents(); 
@@ -54,7 +56,7 @@ public class CourseEditorFrame extends javax.swing.JFrame {
     private void refreshCourseAndDisplay() {
         
         try {
-            List<Course> myCourses = instructorService.getMyCourses(course.getInstructorId());
+            List<Course> myCourses = controller.getMyCourses(course.getInstructorId());
             Course updated = myCourses.stream()
                 .filter(c -> c.getCourseId().equals(course.getCourseId()))
                 .findFirst().orElse(null);
@@ -183,7 +185,7 @@ public class CourseEditorFrame extends javax.swing.JFrame {
         String content = JOptionPane.showInputDialog(this, "Enter lesson content:");
         if (content == null) return; 
 
-        boolean ok = instructorService.addLesson(course.getCourseId(), title, content);
+        boolean ok = controller.addLesson(course.getCourseId(), title, content);
         
         if (ok) {
             JOptionPane.showMessageDialog(this, "Lesson added! (ID: " + lessonId + ")");
@@ -200,7 +202,7 @@ public class CourseEditorFrame extends javax.swing.JFrame {
 
         String newContent = JOptionPane.showInputDialog(this, "New content:", selected.getContent());
         if (newContent == null) return;
-        boolean ok = instructorService.editLesson(course.getCourseId(), selected.getLessonId(), newTitle, newContent);
+        boolean ok = controller.editLesson(course.getCourseId(), selected.getLessonId(), newTitle, newContent);
         
         if (ok) {
             JOptionPane.showMessageDialog(this, "Lesson updated!");
@@ -217,7 +219,7 @@ public class CourseEditorFrame extends javax.swing.JFrame {
                 "Confirm Deletion", JOptionPane.YES_NO_OPTION);
 
         if (confirm != JOptionPane.YES_OPTION) return;
-        boolean ok = instructorService.deleteLesson(course.getCourseId(), selected.getLessonId());
+        boolean ok = controller.deleteLesson(course.getCourseId(), selected.getLessonId());
         
         if (ok) {
             JOptionPane.showMessageDialog(this, "Lesson deleted!");
@@ -244,29 +246,28 @@ public class CourseEditorFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         // ... (look and feel boilerplate)
         //</editor-fold>
 
-        /* Create and display the form */
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-              
+
                 BackEnd.Course testCourse = new BackEnd.Course(
-                    "C101", 
-                    "Sample Dev Course", 
-                    "Test Description", 
-                    "I123"
+                        "C101",
+                        "Sample Dev Course",
+                        "Test Description",
+                        "I123"
                 );
-                
-               
-                BackEnd.JsonDatabaseManager db = new BackEnd.JsonDatabaseManager("users.json", "courses.json");
-                BackEnd.InstructorService dummyService = new BackEnd.InstructorService(db); 
-               
-                
-                new CourseEditorFrame(dummyService, testCourse).setVisible(true);
+
+                Controller.LoginController controller = new Controller.LoginController();
+
+                new CourseEditorFrame(controller, testCourse).setVisible(true);
             }
+
+
         });
     }
 }

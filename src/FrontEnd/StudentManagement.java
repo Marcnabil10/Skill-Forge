@@ -6,7 +6,8 @@ package FrontEnd;
     
 import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
-import BackEnd.StudentService;
+
+import Controller.LoginController;
 
 /**
  *
@@ -14,16 +15,12 @@ import BackEnd.StudentService;
  */
 public class StudentManagement extends javax.swing.JFrame {
     private Student currentStudent;
-    private StudentService studentService;
-    private JsonDatabaseManager dbManager;
-    private LoginFrame loginFrame;
+    private LoginController controller;
     
-      public StudentManagement(Student student, StudentService service, JsonDatabaseManager db, LoginFrame loginFrame) {
+      public StudentManagement(Student student,LoginController controller) {
         initComponents();
         this.currentStudent = student;
-        this.studentService = service;
-        this.dbManager = db;
-        this.loginFrame = loginFrame;
+        this.controller = controller;
 
     }
     public StudentManagement(){
@@ -126,24 +123,23 @@ public class StudentManagement extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         this.dispose();
-        if (loginFrame != null) loginFrame.setVisible(true);
-        else new LoginFrame(dbManager).setVisible(true); 
+        new LoginFrame().setVisible(true);
     }//GEN-LAST:event_logoutActionPerformed
 
     private void browseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseActionPerformed
-        Browse b = new Browse(currentStudent, studentService, dbManager, this);
+        Browse b = new Browse(currentStudent, controller, this);
         b.setVisible(true);
         dispose();
     }//GEN-LAST:event_browseActionPerformed
 
     private void MycoursesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MycoursesActionPerformed
-       MyCourses mc = new MyCourses(currentStudent, studentService, dbManager, this);
+       MyCourses mc = new MyCourses(currentStudent, controller, this);
        mc.setVisible(true);
         dispose();
     }//GEN-LAST:event_MycoursesActionPerformed
 
     private void myprogressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myprogressActionPerformed
-      Progress p = new Progress(currentStudent, studentService, dbManager, this);
+      Progress p = new Progress(currentStudent,controller, this);
       p.setVisible(true);
         dispose();
     }//GEN-LAST:event_myprogressActionPerformed
@@ -154,15 +150,10 @@ public class StudentManagement extends javax.swing.JFrame {
   public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-            BackEnd.JsonDatabaseManager db = new BackEnd.JsonDatabaseManager("users.json", "courses.json");
-
-            BackEnd.StudentService studentService = new BackEnd.StudentService(db);
-
-            BackEnd.Student testStudent = new BackEnd.Student("Test Student", "S100", "student@test.com", "hash", "student");
-
-            FrontEnd.LoginFrame loginFrame = new FrontEnd.LoginFrame(db);
-
-            new FrontEnd.StudentManagement(testStudent, studentService, db, loginFrame).setVisible(true);
+            Controller.LoginController controller = new Controller.LoginController();
+            BackEnd.User testUser = controller.login("student@test.com", "password");
+            BackEnd.Student testStudent = controller.getStudent(testUser);
+            new FrontEnd.StudentManagement(testStudent, controller).setVisible(true);
         }
     });
 }
