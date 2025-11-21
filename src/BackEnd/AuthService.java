@@ -23,7 +23,9 @@ public class AuthService {
         public static User login(String username, String password) {
             User user = dbManager.findUserByUsername(username);
             if (user == null) {
-                return null;
+                user=dbManager.findUserByEmail(input);
+                if(user==null)
+                    return null;
             }
 
             if (!PasswordHasher.verifyPassword(password, user.getPasswordHash())) {
