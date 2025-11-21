@@ -75,7 +75,7 @@ public class InstructorService {
             return false;
         }
        
-        if (!course.getInstructor().equals(instructor.getUserId())) {
+        if (!course.getInstructor().equals(instructor.getUsername())) {
             System.out.println("Instructor does not own this course");
             return false;
         }
@@ -144,17 +144,17 @@ public class InstructorService {
         return false;
     }
 
-    public List<Course> getMyCourses(String instructorId) {
+    public List<Course> getMyCourses(String instructor) {
         List<Course> allCourses = dbManager.getAllCourses();
         List<Course> myCourses = new ArrayList<>();
         
         for (Course course : allCourses) {
-            if (course.getInstructor().equals(instructorId)) {
+            if (course.getInstructor().equals(instructor)) {
                 myCourses.add(course);
             }
         }
         
-        System.out.println("Found " + myCourses.size() + " courses for instructor: " + instructorId);
+        System.out.println("Found " + myCourses.size() + " courses for instructor: " + instructor);
         return myCourses;
     }
 

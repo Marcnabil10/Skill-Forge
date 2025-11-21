@@ -5,10 +5,7 @@
 package FrontEnd;
 
 import BackEnd.Course;
-import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
-import BackEnd.StudentService;
-import Controller.LoginController;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

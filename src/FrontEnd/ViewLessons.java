@@ -5,10 +5,8 @@
 package FrontEnd;
 
 import BackEnd.Course;
-import BackEnd.JsonDatabaseManager;
 import BackEnd.Lesson;
 import BackEnd.Student;
-import BackEnd.StudentService;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
