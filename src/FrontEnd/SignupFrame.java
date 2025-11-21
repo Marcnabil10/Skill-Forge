@@ -64,7 +64,7 @@ public class SignupFrame extends javax.swing.JFrame {
         jLabel4.setText("Password:");
 
         jComboBox1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "role", "student", "instructor", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "role", "student", "instructor", "Admin", " ", " " }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);

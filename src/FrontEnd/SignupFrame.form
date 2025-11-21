@@ -144,11 +144,13 @@
           <Font name="Helvetica Neue" size="14" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="6">
             <StringItem index="0" value="role"/>
             <StringItem index="1" value="student"/>
             <StringItem index="2" value="instructor"/>
-            <StringItem index="3" value=" "/>
+            <StringItem index="3" value="Admin"/>
+            <StringItem index="4" value=" "/>
+            <StringItem index="5" value=" "/>
           </StringArray>
         </Property>
       </Properties>
