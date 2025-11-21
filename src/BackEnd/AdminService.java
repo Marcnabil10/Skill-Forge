@@ -26,7 +26,7 @@ public class AdminService {
         }
         return pendingCourses;
        }
-  private boolean updateCourseStatus(String courseId,String newStatus){
+  public boolean updateCourseStatus(String courseId,String newStatus){
       Course course=db.getCourseById(courseId);
       if(course==null)
           return false;

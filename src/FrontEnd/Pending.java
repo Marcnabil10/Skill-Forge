@@ -6,6 +6,7 @@ package FrontEnd;
 import BackEnd.AdminService;
 import BackEnd.Course;
 import BackEnd.JsonDatabaseManager;
+import Controller.LoginController;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,15 +17,16 @@ public class Pending extends javax.swing.JPanel {
     private JsonDatabaseManager db;
     private AdminService adminService;
     private AdminDashboard dashboard;
+    private LoginController controller;
 
     /**
      * Creates new form Pending
      */
-    public Pending(JsonDatabaseManager db, AdminDashboard dashboard) {
-        initComponents();
-        this.db = db;
-    this.adminService = new AdminService(db);
+    public Pending(LoginController controller, AdminDashboard dashboard) {
+       initComponents();
+   
     this.dashboard = dashboard;
+    this.controller = controller;
     refreshTable();
     }
   public void refreshTable() {
@@ -32,13 +34,13 @@ public class Pending extends javax.swing.JPanel {
     model.setRowCount(0);
     
     try {
-        if (adminService == null) 
+        if (controller == null) 
             return;
         
-        java.util.List<BackEnd.Course> list = adminService.getPendingCourses(); 
+        java.util.List<BackEnd.Course> list = controller.getPendingCourses(); 
         if (list == null) return;
         for(BackEnd.Course c : list) {
-            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getInstructorId()});
+            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getInstructor()});
         }
     } catch (Exception e) {
     }

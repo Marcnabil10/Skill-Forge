@@ -1,0 +1,61 @@
+[
+    {
+        "role": "admin",
+        "userId": "f5d52a49-e370-421f-9ffd-6eb3f473fed1",
+        "email": "a@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "abram"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": [],
+        "userId": "d5dbcad3-1474-47ed-974b-4b984bfc380b",
+        "email": "s@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "sophie"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": [],
+        "userId": "3545b716-be2a-444b-a66d-63162d9d8ca9",
+        "email": "m@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "marc"
+    },
+    {
+        "role": "student",
+        "certificates": [],
+        "enrolledCourses": [{
+            "instructor": "",
+            "description": "ggggg",
+            "students": ["90f3dc55-744e-4ee2-b7f5-305b0e2d9bbc"],
+            "title": "logic2",
+            "courseId": "625c023c-c6c6-4282-b404-f5e6714e8da3",
+            "status": "APPROVED",
+            "lessons": []
+        }],
+        "progress": {},
+        "userId": "90f3dc55-744e-4ee2-b7f5-305b0e2d9bbc",
+        "email": "tt@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "tony"
+    },
+    {
+        "role": "student",
+        "certificates": [],
+        "enrolledCourses": [{
+            "instructor": "3545b716-be2a-444b-a66d-63162d9d8ca9",
+            "description": "dddd",
+            "students": ["57e52b24-1cdb-4be4-ba86-8f95ec98ad14"],
+            "title": "programming",
+            "courseId": "db6e6128-358e-42c8-90d9-18bc12f9484f",
+            "status": "APPROVED",
+            "lessons": []
+        }],
+        "progress": {},
+        "userId": "57e52b24-1cdb-4be4-ba86-8f95ec98ad14",
+        "email": "ee@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "ebraam"
+    }
+]

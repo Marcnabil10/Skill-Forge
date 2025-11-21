@@ -38,6 +38,9 @@ public class Browse extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) coursesTable.getModel();
         model.setRowCount(0);
         for (Course c : courses) {
+            if(!(c.getStatus().equals(Course.STATUS_APPROVED))){
+            continue;
+            }
             model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getDescription()});
         }
     }

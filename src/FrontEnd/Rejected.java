@@ -6,6 +6,7 @@ package FrontEnd;
 import BackEnd.AdminService;
 import BackEnd.Course;
 import BackEnd.JsonDatabaseManager;
+import Controller.LoginController;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,29 +14,31 @@ import javax.swing.table.DefaultTableModel;
  * @author marcn
  */
 public class Rejected extends javax.swing.JPanel {
-    private JsonDatabaseManager db;
+   
     private AdminDashboard dashboard;
+    private LoginController controller;
 
 
     /**
      * Creates new form Rejected
      */
-    public Rejected(JsonDatabaseManager db, AdminDashboard dashboard) {
+    public Rejected(LoginController controller, AdminDashboard dashboard) {
         initComponents();
-        this.db = db;
+      
         this.dashboard = dashboard;
+        this.controller = controller;
         refreshTable();
     }
     public void refreshTable() {
 
     javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
     model.setRowCount(0);
-    for (BackEnd.Course c : db.getAllCourses()) {
+    for (BackEnd.Course c : controller.getAllCourses()) {
         if (c.getStatus().equals(BackEnd.Course.STATUS_REJECTED)) {
             model.addRow(new Object[]{
                 c.getCourseId(), 
                 c.getTitle(), 
-                c.getInstructorId()
+                c.getInstructor()
             });
         }
     }

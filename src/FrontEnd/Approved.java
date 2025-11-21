@@ -6,6 +6,7 @@ package FrontEnd;
 import BackEnd.AdminService;
 import BackEnd.Course;
 import BackEnd.JsonDatabaseManager;
+import Controller.LoginController;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,28 +14,30 @@ import javax.swing.table.DefaultTableModel;
  * @author marcn
  */
 public class Approved extends javax.swing.JPanel {
-    private JsonDatabaseManager db;
+ 
     private AdminDashboard dashboard;
+    private LoginController controller;
   
 
     /**
      * Creates new form Approved
      */
-    public Approved(JsonDatabaseManager db, AdminDashboard dashboard) {
+    public Approved(LoginController controller, AdminDashboard dashboard) {
         initComponents();
-        this.db = db;
+        this.controller = controller;
         this.dashboard = dashboard;
         refreshTable();
     }
+    
      public void refreshTable() {
     javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
     model.setRowCount(0);
-    for (BackEnd.Course c : db.getAllCourses()) {
+    for (BackEnd.Course c : controller.getAllCourses()) {
         if (c.getStatus().equals(BackEnd.Course.STATUS_APPROVED)) {
             model.addRow(new Object[]{
                 c.getCourseId(), 
                 c.getTitle(), 
-                c.getInstructorId()
+                c.getInstructor()
             });
         }
     }

@@ -56,7 +56,7 @@ public class CourseEditorFrame extends javax.swing.JFrame {
     private void refreshCourseAndDisplay() {
         
         try {
-            List<Course> myCourses = controller.getMyCourses(course.getInstructorId());
+            List<Course> myCourses = controller.getMyCourses(course.getInstructor());
             Course updated = myCourses.stream()
                 .filter(c -> c.getCourseId().equals(course.getCourseId()))
                 .findFirst().orElse(null);

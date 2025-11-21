@@ -12,12 +12,12 @@ public class InstructorService {
 
     public boolean createCourse(String title, String description, Instructor instructor) {
         System.out.println("=== Starting createCourse ===");
-        System.out.println("Title: " + title + ", Instructor ID: " + instructor.getUserId());
+        System.out.println("Title: " + title + ", Instructor : " + instructor.getUsername());
         
         String courseId = dbManager.generateUniqueId();
         System.out.println("Generated course ID: " + courseId);
         
-        Course newCourse = new Course(courseId, title, description, instructor.getUserId());
+        Course newCourse = new Course(courseId, title, description, instructor.getUsername());
         System.out.println("Course object created: " + newCourse.getTitle());
         
         boolean saveSuccess = dbManager.save(newCourse);
@@ -75,7 +75,7 @@ public class InstructorService {
             return false;
         }
        
-        if (!course.getInstructorId().equals(instructor.getUserId())) {
+        if (!course.getInstructor().equals(instructor.getUserId())) {
             System.out.println("Instructor does not own this course");
             return false;
         }
@@ -149,7 +149,7 @@ public class InstructorService {
         List<Course> myCourses = new ArrayList<>();
         
         for (Course course : allCourses) {
-            if (course.getInstructorId().equals(instructorId)) {
+            if (course.getInstructor().equals(instructorId)) {
                 myCourses.add(course);
             }
         }
