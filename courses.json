@@ -1,0 +1,47 @@
+[
+    {
+        "instructor": "3545b716-be2a-444b-a66d-63162d9d8ca9",
+        "description": "dddd",
+        "students": ["57e52b24-1cdb-4be4-ba86-8f95ec98ad14"],
+        "title": "programming",
+        "courseId": "db6e6128-358e-42c8-90d9-18bc12f9484f",
+        "status": "APPROVED",
+        "lessons": []
+    },
+    {
+        "instructor": "3545b716-be2a-444b-a66d-63162d9d8ca9",
+        "description": "ssss",
+        "students": [],
+        "title": "signals",
+        "courseId": "2369a5c0-24ce-4f78-a4ee-008c67fe6124",
+        "status": "PENDING",
+        "lessons": []
+    },
+    {
+        "instructor": "3545b716-be2a-444b-a66d-63162d9d8ca9",
+        "description": "gggg",
+        "students": [],
+        "title": "Logic2",
+        "courseId": "14f93a8a-9bd0-44e8-8845-cd3c4ffb1320",
+        "status": "APPROVED",
+        "lessons": []
+    },
+    {
+        "instructor": "d5dbcad3-1474-47ed-974b-4b984bfc380b",
+        "description": "fffff",
+        "students": [],
+        "title": "prog2",
+        "courseId": "af4b4ad2-5143-4f36-8d91-4663c9fcaff7",
+        "status": "REJECTED",
+        "lessons": []
+    },
+    {
+        "instructor": "d5dbcad3-1474-47ed-974b-4b984bfc380b",
+        "description": "hghggh",
+        "students": [],
+        "title": "logic1",
+        "courseId": "8fcecec7-3381-4f09-a5e8-8dc5f5b908d3",
+        "status": "APPROVED",
+        "lessons": []
+    }
+]

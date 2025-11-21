@@ -43,7 +43,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             return null;
         }
 
-        if (!course.getInstructorId().equals(currentI.getUserId())) {
+        if (!course.getInstructor().equals(currentI.getUserId())) {
             JOptionPane.showMessageDialog(this, "Error: You do not own this course.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }

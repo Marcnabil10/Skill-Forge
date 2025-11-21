@@ -6,6 +6,7 @@ package FrontEnd;
 import BackEnd.AdminService;
 import BackEnd.Course;
 import BackEnd.JsonDatabaseManager;
+import Controller.LoginController;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,25 +15,25 @@ import javax.swing.JOptionPane;
  */
 public class ReviewCourses extends javax.swing.JPanel {
     private JsonDatabaseManager db;
-    private AdminService adminService;
+   
     private AdminDashboard dashboard;
     private Course currentCourse;
+    private LoginController controller;
 
     /**
      * Creates new form ReviewCourses
      */
-   public ReviewCourses(JsonDatabaseManager db, AdminDashboard dashboard) {
+   public ReviewCourses(LoginController controller, AdminDashboard dashboard) {
         initComponents();
-        this.db = db;
+        this.controller = controller;
         this.dashboard = dashboard;
-        this.adminService = new AdminService(db);
     }
    public void setCourseData(String courseId) {
-        this.currentCourse = db.getCourseById(courseId);
+        this.currentCourse = controller.getCourseById(courseId);
         
         if (currentCourse != null) {
             lblTitle.setText("Title: " + currentCourse.getTitle());
-            lblInstructor.setText("Instructor ID: " + currentCourse.getInstructorId());
+            lblInstructor.setText("Instructor ID: " + currentCourse.getInstructor());
             lblDescription.setText("Description: " + currentCourse.getDescription());
             int lessonCount = currentCourse.getLessons().size();
             lblStats.setText("Lessons: " + lessonCount);
@@ -188,7 +189,7 @@ public class ReviewCourses extends javax.swing.JPanel {
     private void btnApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApproveActionPerformed
        if (currentCourse == null) return;
         
-        boolean success = adminService.approveCourse(currentCourse.getCourseId());
+        boolean success = controller.approveCourse(currentCourse.getCourseId());
         if (success) {
             JOptionPane.showMessageDialog(this, "Course Approved Successfully!");
             goBack();
@@ -199,7 +200,7 @@ public class ReviewCourses extends javax.swing.JPanel {
 
     private void btnRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejectActionPerformed
       if (currentCourse == null) return;
-      boolean success = adminService.rejectCourse(currentCourse.getCourseId());
+      boolean success = controller.rejectCourse(currentCourse.getCourseId());
         if (success) {
             JOptionPane.showMessageDialog(this, "Course Rejected.");
             goBack();

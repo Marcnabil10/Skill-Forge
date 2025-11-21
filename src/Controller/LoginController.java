@@ -5,16 +5,22 @@ import BackEnd.JsonDatabaseManager;
 import BackEnd.User;
 import BackEnd.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoginController {
     AuthService auth ;
     private final JsonDatabaseManager dbManager;
     private final StudentService studentService;
+    private final InstructorService instructorService;
+    private final AdminService adminService;
 
     public LoginController() {
         this.dbManager = new JsonDatabaseManager("users.json", "courses.json");
         this.auth = new AuthService(dbManager);
         this.studentService = new StudentService(dbManager);
+        this.instructorService = new InstructorService(dbManager);
+        this.adminService = new AdminService(dbManager);
+        
     }
 
 
@@ -33,9 +39,16 @@ public class LoginController {
         if (user instanceof Instructor) return (Instructor) user;
         return null;
     }
+    
+    public Admin getAdmin(User user){
+        if(user instanceof Admin) return (Admin) user;
+        return null;
+    }
+    
     public ArrayList<Course> getAllCourses() {
         return new ArrayList<>(dbManager.getAllCourses());
     }
+    
     public Course getCourseById(String courseId) {
         return dbManager.getCourseById(courseId);
     }
@@ -43,38 +56,55 @@ public class LoginController {
     public boolean enrollInCourse(Student student, Course course) {
         return studentService.enrollInCourse(student, course);
     }
+    
     public ArrayList<Course> getEnrolledCourses(Student student) {
         return studentService.getEnrolledCourses(student);
     }
+    
     public boolean createCourse(String title, String description, Instructor instructor) {
-        return new InstructorService(dbManager).createCourse(title, description, instructor);
+        return  instructorService.createCourse(title, description, instructor);
     }
 
     public boolean editCourse(String courseId, String newTitle, String newDescription) {
-        return new InstructorService(dbManager).editCourse(courseId, newTitle, newDescription);
+        return instructorService.editCourse(courseId, newTitle, newDescription);
     }
 
     public boolean deleteCourse(String courseId, Instructor instructor) {
-        return new InstructorService(dbManager).deleteCourse(courseId, instructor);
+        return instructorService.deleteCourse(courseId, instructor);
     }
 
     public ArrayList<Student> getEnrolledStudents(String courseId) {
-        return new ArrayList<>(new InstructorService(dbManager).getEnrolledStudents(courseId));
+        return new ArrayList<>(instructorService.getEnrolledStudents(courseId));
     }
+    
+    public List<Course> getPendingCourses(){
+      return adminService.getPendingCourses();
+    }
+      
+     public boolean updateCourseStatus(String courseId,String newStatus){
+      return adminService.updateCourseStatus(courseId, newStatus);
+  }
+     public boolean approveCourse(String courseId){
+        return updateCourseStatus(courseId,Course.STATUS_APPROVED);
+  }
+     public boolean rejectCourse(String courseId){
+        return updateCourseStatus(courseId,Course.STATUS_REJECTED);
+  }
+   
     public boolean addLesson(String courseId, String title, String content) {
-        return new InstructorService(dbManager).addLesson(courseId, title, content);
+        return instructorService.addLesson(courseId, title, content);
     }
 
     public boolean editLesson(String courseId, String lessonId, String newTitle, String newContent) {
-        return new InstructorService(dbManager).editLesson(courseId, lessonId, newTitle, newContent);
+        return instructorService.editLesson(courseId, lessonId, newTitle, newContent);
     }
 
     public boolean deleteLesson(String courseId, String lessonId) {
-        return new InstructorService(dbManager).deleteLesson(courseId, lessonId);
+        return instructorService.deleteLesson(courseId, lessonId);
     }
 
     public ArrayList<Course> getMyCourses(String instructorId) {
-        return new ArrayList<>(new InstructorService(dbManager).getMyCourses(instructorId));
+        return new ArrayList<>(instructorService.getMyCourses(instructorId));
     }
 
     public boolean markLessonCompleted(Student student, Course course, Lesson lesson) {
@@ -111,7 +141,7 @@ public class LoginController {
         return dbManager.generateUniqueId();
     }
 
-
+    
 
 
 }

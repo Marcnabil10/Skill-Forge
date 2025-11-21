@@ -143,8 +143,11 @@ public class SignupFrame extends javax.swing.JFrame {
 
         if ("student".equalsIgnoreCase(role)) {
             newUser = new Student(id, username, email, hashed, "student");
-        } else {
+        } else if("instructor".equalsIgnoreCase(role)){
             newUser = new Instructor(id, username, email, hashed, "instructor");
+        }
+        else{
+            newUser = new Admin(id, username, email, hashed, "admin");
         }
 
         controller.saveUser(newUser);
