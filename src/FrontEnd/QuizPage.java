@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package FrontEnd;
+
 import Controller.LoginController;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -12,21 +13,25 @@ import java.util.Map;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+
 /**
  *
  * @author Ʈ Ꝺ Ɲ ƴ
  */
 public class QuizPage extends javax.swing.JFrame {
+
     private LoginController controller;
     private int currentQuestionIndex = 0;
     private Map<Integer, Integer> studentAnswers = new HashMap<>();
     private ButtonGroup currentGroup;
-    private StudentManagement dashboard:
+    private StudentManagement dashboard;
+    private Results resultPanel;
 
-    public QuizPage(LoginController controller , StudentManagement dashboard) {
+    public QuizPage(LoginController controller, StudentManagement dashboard) {
         initComponents();
         this.controller = controller;
-        this.dashboard=dashboard;
+        this.dashboard = dashboard;
+        this.resultPanel = new Results(controller, this, dashboard);
 
         int total = controller.getQuizQuestionCount();
         if (total == 0) {
@@ -34,65 +39,81 @@ public class QuizPage extends javax.swing.JFrame {
             dispose();
             return;
         }
-
+        this.currentGroup = new ButtonGroup();
         lblLesson.setText(controller.getCurrentLessonTitle());
         lblnum.setText(String.valueOf(total));
-        
+
         loadQuestion(0);
     }
+
     /**
      * Creates new form QuizPage
      */
     public QuizPage() {
         initComponents();
     }
+
     private void loadQuestion(int index) {
         int total = controller.getQuizQuestionCount();
-        List<String> options = controller.getQuestionOptions(index);
+        java.util.List<String> options = controller.getQuestionOptions(index);
+
         lblQCounter.setText("Question " + (index + 1) + " of " + total);
-        lblQText.setText(controller.getQuestionText(index)); 
+        lblQText.setText("<html>" + controller.getQuestionText(index) + "</html>");
+
         pnlOptions.removeAll();
-        currentGroup = new ButtonGroup();
+        currentGroup = new javax.swing.ButtonGroup();
+
         for (int i = 0; i < options.size(); i++) {
-            JRadioButton rb = new JRadioButton(options.get(i));
-            rb.setActionCommand(String.valueOf(i)); 
+            javax.swing.JRadioButton rb = new javax.swing.JRadioButton(options.get(i));
+            rb.setFont(new java.awt.Font("Segoe UI", 0, 14));
+            rb.setActionCommand(String.valueOf(i));
+
             if (studentAnswers.getOrDefault(index, -1) == i) {
                 rb.setSelected(true);
             }
 
-            currentGroup.add(rb); 
-            pnlOptions.add(rb);   
+            currentGroup.add(rb);
+            pnlOptions.add(rb);
         }
+
         if (index == total - 1) {
             btnNext.setText("Finish");
         } else {
             btnNext.setText("Next");
         }
+
         pnlOptions.revalidate();
         pnlOptions.repaint();
     }
+
     private void saveAnswer() {
         if (currentGroup.getSelection() != null) {
             int ans = Integer.parseInt(currentGroup.getSelection().getActionCommand());
             studentAnswers.put(currentQuestionIndex, ans);
         }
     }
+
     private void submit() {
-        List<Integer> answers = new ArrayList<>();
+        java.util.List<Integer> answers = new java.util.ArrayList<>();
         int total = controller.getQuizQuestionCount();
 
         for (int i = 0; i < total; i++) {
-            if (studentAnswers.containsKey(i)) {
-                answers.add(studentAnswers.get(i));
-            } else {
-                answers.add(-1);
-            }
+            answers.add(studentAnswers.getOrDefault(i, -1));
         }
 
-        
-        String result = controller.submitCurrentQuiz(answers);
-        JOptionPane.showMessageDialog(this, result);
-        dispose();
+        String resultMsg = controller.submitCurrentQuiz(answers);
+        boolean passed = resultMsg.contains("PASSED");
+
+        this.getContentPane().removeAll();
+        this.setLayout(new java.awt.BorderLayout());
+
+        this.add(resultPanel);
+        resultPanel.setVisible(true);
+
+        resultPanel.showResult(resultMsg, passed, answers);
+
+        this.revalidate();
+        this.repaint();
     }
 
     /**
@@ -229,12 +250,19 @@ public class QuizPage extends javax.swing.JFrame {
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
 
+       
+        if (currentGroup == null) {
+            return;
+        }
+
         if (currentGroup.getSelection() == null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select an answer.");
-            return; 
+            return;
         }
+
         saveAnswer();
-                int total = controller.getQuizQuestionCount();
+
+        int total = controller.getQuizQuestionCount();
         if (currentQuestionIndex < total - 1) {
             currentQuestionIndex++;
             loadQuestion(currentQuestionIndex);
@@ -242,7 +270,6 @@ public class QuizPage extends javax.swing.JFrame {
             int confirm = javax.swing.JOptionPane.showConfirmDialog(this, "Finish Quiz?", "Submit", javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) submit();
         }
-   
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
@@ -250,7 +277,7 @@ public class QuizPage extends javax.swing.JFrame {
         if (dashboard != null) {
             dashboard.setVisible(true);
         }
-            dispose();
+        dispose();
 
     }//GEN-LAST:event_btnExitActionPerformed
 
