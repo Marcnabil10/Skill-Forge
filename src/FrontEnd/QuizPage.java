@@ -255,6 +255,11 @@ public class QuizPage extends javax.swing.JFrame {
             return;
         }
 
+       
+        if (currentGroup == null) {
+            return;
+        }
+
         if (currentGroup.getSelection() == null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select an answer.");
             return;
