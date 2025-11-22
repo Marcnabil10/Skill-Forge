@@ -27,6 +27,7 @@ public class QuizPage extends javax.swing.JFrame {
         initComponents();
         this.controller = controller;
         this.dashboard=dashboard;
+        this.currentGroup = new ButtonGroup();
 
         int total = controller.getQuizQuestionCount();
         if (total == 0) {
@@ -59,6 +60,8 @@ public class QuizPage extends javax.swing.JFrame {
             if (studentAnswers.getOrDefault(index, -1) == i) {
                 rb.setSelected(true);
             }
+            pnlOptions.removeAll();
+    currentGroup = new ButtonGroup();
 
             currentGroup.add(rb); 
             pnlOptions.add(rb);   
@@ -72,11 +75,13 @@ public class QuizPage extends javax.swing.JFrame {
         pnlOptions.repaint();
     }
     private void saveAnswer() {
-        if (currentGroup.getSelection() != null) {
-            int ans = Integer.parseInt(currentGroup.getSelection().getActionCommand());
-            studentAnswers.put(currentQuestionIndex, ans);
-        }
+    if (currentGroup == null || currentGroup.getSelection() == null) {
+        return;
     }
+    
+    int ans = Integer.parseInt(currentGroup.getSelection().getActionCommand());
+    studentAnswers.put(currentQuestionIndex, ans);
+}
     private void submit() {
         List<Integer> answers = new ArrayList<>();
         int total = controller.getQuizQuestionCount();
