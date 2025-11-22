@@ -21,7 +21,7 @@ public class QuizPage extends javax.swing.JFrame {
     private int currentQuestionIndex = 0;
     private Map<Integer, Integer> studentAnswers = new HashMap<>();
     private ButtonGroup currentGroup;
-    private StudentManagement dashboard:
+    private StudentManagement dashboard;
 
     public QuizPage(LoginController controller , StudentManagement dashboard) {
         initComponents();
