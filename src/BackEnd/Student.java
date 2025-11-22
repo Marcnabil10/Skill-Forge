@@ -10,8 +10,8 @@ public class Student extends User {
     private HashMap<String, ArrayList<String>> progress; 
     private ArrayList<Certificate> certificates;
 
-    public Student(String username, String userID, String email, String passwordHash, String role) {
-        super(username, userID, email, passwordHash, role);
+    public Student(String userId, String username, String email, String passwordHash, String role) {
+        super(userId, username, email, passwordHash, role);
         this.enrolledCourses = new ArrayList<>();
         this.progress = new HashMap<>();
         this.certificates = new ArrayList<>();

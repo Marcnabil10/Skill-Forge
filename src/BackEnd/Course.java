@@ -61,6 +61,23 @@ public class Course {
                     lessonJson.optString("title"),
                     lessonJson.optString("content")
                 );
+                if (lessonJson.has("quiz")) {
+                    JSONObject q = lessonJson.getJSONObject("quiz");
+                    Quiz quiz = new Quiz(q.getString("title"), q.getInt("attempts"));
+
+                    JSONArray qs = q.getJSONArray("questions");
+                    for (int j = 0; j < qs.length(); j++) {
+                        quiz.addQuestion(new Question(qs.getJSONObject(j)));
+                    }
+
+                    JSONObject at = q.getJSONObject("studentAttempts");
+                    for (String key : at.keySet()) {
+                        quiz.getStudentAttempts().put(key, at.getInt(key));
+                    }
+
+                    lesson.setQuiz(quiz);
+                }
+
                 this.lessons.add(lesson);
             }
         }
@@ -140,15 +157,32 @@ public class Course {
             lessonJson.put("lessonId", lesson.getLessonId());
             lessonJson.put("title", lesson.getTitle());
             lessonJson.put("content", lesson.getContent());
-            
-          
+            if (lesson.getQuiz() != null) {
+                Quiz q = lesson.getQuiz();
+                JSONObject quizJson = new JSONObject();
+                quizJson.put("id", q.getId());
+                quizJson.put("title", q.getTitle());
+                quizJson.put("attempts", q.getAttempts());
+                JSONArray qArr = new JSONArray();
+                for (Question qu : q.getQuestions()) {
+                    qArr.put(qu.toJSON());
+                }
+                quizJson.put("questions", qArr);
+                quizJson.put("studentAttempts", new JSONObject(q.getStudentAttempts()));
+                lessonJson.put("quiz", quizJson);
+            }
+
+
+
+
             lessonJson.put("resources", new JSONArray(lesson.getResources())); 
             
             lessonsArray.put(lessonJson);
         }
+
         json.put("lessons", lessonsArray);
         json.put("students", new JSONArray(this.students));
-        
+
         return json;
     }
 
