@@ -17,7 +17,7 @@ public class ChartFrame extends javax.swing.JFrame {
      * Creates new form ChartFrame
      */
     public ChartFrame(Course currentCourse) {
-        initComponents();
+       // initComponents();
         this.currentCourse = currentCourse;
         setTitle("Analytics for "+currentCourse.getTitle());
         setSize(600,400);
@@ -26,6 +26,7 @@ public class ChartFrame extends javax.swing.JFrame {
        
          ChartPanel panel = new ChartPanel(currentCourse);
             add(panel);
+            pack();
         setVisible(true);
     }
    
