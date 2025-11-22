@@ -38,7 +38,7 @@ public class Browse extends javax.swing.JFrame {
             if(!(c.getStatus().equals(Course.STATUS_APPROVED))){
             continue;
             }
-            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getDescription()});
+            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getDescription() , c.getInstructor()});
         }
     }
      
@@ -66,17 +66,17 @@ public class Browse extends javax.swing.JFrame {
 
         coursesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Course ID", "Course Title ", "Desctibtion"
+                "Course ID", "Course Title ", "Desctibtion", "Instructor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

@@ -20,6 +20,7 @@ public class ChartPanel extends javax.swing.JPanel {
     public ChartPanel(Course currentcourse) {
         initComponents();
         this.currentCourse = currentcourse;
+        setPreferredSize(new java.awt.Dimension(500, 350));
     }
 
     @Override

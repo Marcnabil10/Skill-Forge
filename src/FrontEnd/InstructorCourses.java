@@ -143,7 +143,9 @@ public class InstructorCourses extends javax.swing.JFrame {
     String courseId = CoursesTable.getValueAt(row, 1).toString();
     Course selected = controller.getCourseById(courseId);
 
-    new ChartFrame(selected).setVisible(true);
+    ChartFrame chart = new ChartFrame(selected);
+    chart.setVisible(true);
+    
     }//GEN-LAST:event_ViewAnalyticsActionPerformed
 
    
