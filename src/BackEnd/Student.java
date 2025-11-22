@@ -154,11 +154,12 @@ json.put("certificates", certsArray);
     public ArrayList<String> getCompletedLessons(String courseId) {
         return progress.getOrDefault(courseId, new ArrayList<>());
     }
+    
     public ArrayList<Certificate> getCertificates() {
-    return certificates;
-}
+        return certificates;
+    }
 
      public void addCertificate(Certificate certificate) {
-    this.certificates.add(certificate);
-    }
+        this.certificates.add(certificate);
+        }
     }

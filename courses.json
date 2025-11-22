@@ -86,5 +86,14 @@
                 "content": "jjj"
             }
         ]
+    },
+    {
+        "instructor": "marc",
+        "description": "yyyyyyy",
+        "students": [],
+        "title": "programming3",
+        "courseId": "ad46fdec-d7e8-4376-aadf-989644bbbca1",
+        "status": "PENDING",
+        "lessons": []
     }
 ]

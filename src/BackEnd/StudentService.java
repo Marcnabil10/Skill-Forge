@@ -77,11 +77,11 @@ public class StudentService {
             return false;
         }
         if(!(lesson.getQuiz()==null)){
+           
             if(!(lesson.getQuiz().isPassed(lesson.getQuiz().getScore(student.getUsername()))))
                 return false;
         }
         boolean completed = student.isLessonCompleted(course.getCourseId(), lesson.getLessonId());
-        JOptionPane.showMessageDialog(null, "Lesson " + lesson.getLessonId() + " completed: " + completed);
         return completed;
     }
     
