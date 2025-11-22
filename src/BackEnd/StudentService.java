@@ -1,6 +1,7 @@
 package BackEnd;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class StudentService {
@@ -19,7 +20,7 @@ public class StudentService {
     }
     
     public boolean enrollInCourse(Student student, Course course) {
-       JOptionPane.showMessageDialog(null, "Enrolling student " + student.getUsername()+ " in course " + course.getTitle());
+       JOptionPane.showMessageDialog(null, "Enrolling student " + student.getUserId() + " in course " + course.getCourseId());
         
         if (!isStudentEnrolled(student, course.getCourseId())) {
             student.addEnrolledCourse(course);
@@ -58,32 +59,29 @@ public class StudentService {
         }
         return student.getEnrolledCourses();
     }
-    
+
     public boolean markLessonCompleted(Student student, Course course, Lesson lesson) {
-       JOptionPane.showMessageDialog(null, "Marking lesson " + lesson.getTitle()+ " as completed for student " + student.getUsername());
-        
         if (student == null || course == null || lesson == null) {
-            System.out.println("Error: Student, course, or lesson is null");
+            return false;
+        }
+        if (isLessonCompleted(student, course, lesson)) {
             return false;
         }
         student.markLessonCompleted(course.getCourseId(), lesson.getLessonId());
-        
-        boolean saved = dbManager.update(student);
-        if (!saved) {
-            JOptionPane.showMessageDialog(null, "Failed to save progress to database");
-          
-        } else {
-           JOptionPane.showMessageDialog(null, "Successfully saved lesson completion");
-        }
-        return saved;
+        return dbManager.update(student);
     }
-    
+
+
     public boolean isLessonCompleted(Student student, Course course, Lesson lesson) {
         if (student == null || course == null || lesson == null) {
             return false;
         }
+        if(!(lesson.getQuiz()==null)){
+            if(!(lesson.getQuiz().isPassed(lesson.getQuiz().getScore(student.getUsername()))))
+                return false;
+        }
         boolean completed = student.isLessonCompleted(course.getCourseId(), lesson.getLessonId());
-        //JOptionPane.showMessageDialog(null, "Lesson " + lesson.getLessonId() + " completed: " + completed);
+        JOptionPane.showMessageDialog(null, "Lesson " + lesson.getLessonId() + " completed: " + completed);
         return completed;
     }
     
@@ -113,5 +111,12 @@ public class StudentService {
             JOptionPane.showMessageDialog(null, "Progress: " + progress + "%");
             return progress;
         }
+    }
+    public boolean canAccessLesson(Student student, Course course, Lesson lesson) {
+        List<Lesson> lessons = course.getLessons();
+        int index = lessons.indexOf(lesson);
+        if (index == 0) return true;
+        Lesson previous = lessons.get(index - 1);
+        return isLessonCompleted(student, course, previous);
     }
 }

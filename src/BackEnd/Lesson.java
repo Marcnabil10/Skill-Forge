@@ -16,6 +16,15 @@ public class Lesson {
     private String title;
     private String content;
     private List<String> resources;
+    private Quiz quiz;
+
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+    }
 
     public Lesson(String lessonId, String title, String content) {
         this.lessonId = lessonId;
