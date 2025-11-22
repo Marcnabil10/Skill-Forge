@@ -103,6 +103,13 @@ public class QuizPage extends javax.swing.JFrame {
 
         String resultMsg = controller.submitCurrentQuiz(answers);
         boolean passed = resultMsg.contains("PASSED");
+        if (passed) {
+        controller.markLessonCompleted(
+            controller.getCurrentStudent(), 
+            controller.getCurrentCourse(), 
+            controller.getCurrentLesson()
+        );
+    }
 
         this.getContentPane().removeAll();
         this.setLayout(new java.awt.BorderLayout());
