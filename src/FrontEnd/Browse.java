@@ -5,10 +5,7 @@
 package FrontEnd;
 
 import BackEnd.Course;
-import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
-import BackEnd.StudentService;
-import Controller.LoginController;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -38,7 +35,10 @@ public class Browse extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) coursesTable.getModel();
         model.setRowCount(0);
         for (Course c : courses) {
-            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getDescription()});
+            if(!(c.getStatus().equals(Course.STATUS_APPROVED))){
+            continue;
+            }
+            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getDescription() , c.getInstructor()});
         }
     }
      
@@ -66,17 +66,17 @@ public class Browse extends javax.swing.JFrame {
 
         coursesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Course ID", "Course Title ", "Desctibtion"
+                "Course ID", "Course Title ", "Desctibtion", "Instructor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

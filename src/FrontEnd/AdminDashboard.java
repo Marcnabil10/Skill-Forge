@@ -4,8 +4,8 @@
  */
 package FrontEnd;
 import BackEnd.*;
+import Controller.LoginController;
 import java.awt.Container;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,18 +18,20 @@ public class AdminDashboard extends javax.swing.JFrame {
     private Approved pnlApproved;
     private Rejected pnlRejected;
     private ReviewCourses pnlReview;
+    private LoginController controller;
 
     /**
      * Creates new form AdminDashboard
      */
-   public AdminDashboard() {
+   public AdminDashboard(Admin admin , LoginController controller) {
         initComponents();
+        this.controller = controller;
         this.db = new JsonDatabaseManager("users.json", "courses.json");
         this.homePanel = this.getContentPane();
-        this.pnlPending = new Pending(db, this);
-        this.pnlApproved = new Approved(db, this);
-        this.pnlRejected = new Rejected(db, this);
-        this.pnlReview = new ReviewCourses(db, this);
+        this.pnlPending = new Pending(this.controller, this);
+        this.pnlApproved = new Approved(this.controller, this);
+        this.pnlRejected = new Rejected(this.controller, this);
+        this.pnlReview = new ReviewCourses(this.controller, this);
         
     }
    
@@ -80,6 +82,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(51, 51, 255));
         jLabel1.setText("Admin Dashboard");
 
+        jButton1.setForeground(new java.awt.Color(102, 102, 102));
         jButton1.setText("View pending courses");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,6 +90,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setForeground(new java.awt.Color(51, 204, 0));
         jButton2.setText("View approved courses");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +98,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setForeground(new java.awt.Color(153, 0, 0));
         jButton3.setText("View rejected courses");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,40 +172,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         new LoginFrame(loginController).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdminDashboard().setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

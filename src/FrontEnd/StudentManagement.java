@@ -4,7 +4,6 @@
  */
 package FrontEnd;
     
-import BackEnd.JsonDatabaseManager;
 import BackEnd.Student;
 
 import Controller.LoginController;
@@ -23,9 +22,7 @@ public class StudentManagement extends javax.swing.JFrame {
         this.controller = controller;
 
     }
-    public StudentManagement(){
-       
-    }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -144,19 +141,7 @@ public class StudentManagement extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_myprogressActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-  public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            Controller.LoginController controller = new Controller.LoginController();
-            BackEnd.User testUser = controller.login("student@test.com", "password");
-            BackEnd.Student testStudent = controller.getStudent(testUser);
-            new FrontEnd.StudentManagement(testStudent, controller).setVisible(true);
-        }
-    });
-}
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Mycourses;

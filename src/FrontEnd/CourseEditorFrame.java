@@ -1,7 +1,6 @@
 package FrontEnd;
 
 import BackEnd.Course;
-import BackEnd.InstructorService;
 import BackEnd.Lesson;
 import Controller.LoginController;
 
@@ -56,7 +55,7 @@ public class CourseEditorFrame extends javax.swing.JFrame {
     private void refreshCourseAndDisplay() {
         
         try {
-            List<Course> myCourses = controller.getMyCourses(course.getInstructorId());
+            List<Course> myCourses = controller.getMyCourses(course.getInstructor());
             Course updated = myCourses.stream()
                 .filter(c -> c.getCourseId().equals(course.getCourseId()))
                 .findFirst().orElse(null);

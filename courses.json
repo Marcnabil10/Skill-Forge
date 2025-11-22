@@ -1,0 +1,90 @@
+[
+    {
+        "instructor": "ebraam",
+        "description": "ooo",
+        "students": [],
+        "title": "prog0",
+        "courseId": "4fac2259-4f45-4e81-8109-ecc74e2c2adf",
+        "status": "APPROVED",
+        "lessons": []
+    },
+    {
+        "instructor": "ebraam",
+        "description": "iiii",
+        "students": [],
+        "title": "prog1",
+        "courseId": "34905a82-75df-49f4-a704-1cbab0adf501",
+        "status": "REJECTED",
+        "lessons": []
+    },
+    {
+        "instructor": "ebraam",
+        "description": "tttt",
+        "students": ["b88e66d9-5ea3-4a1d-b307-6164ddf3d292"],
+        "title": "prog2",
+        "courseId": "d713f9cd-4c2a-413d-bd59-49aabffcc83c",
+        "status": "APPROVED",
+        "lessons": []
+    },
+    {
+        "instructor": "marc",
+        "description": "sss",
+        "students": [],
+        "title": "signals",
+        "courseId": "f449fe59-fd6a-4196-97e2-6afb0ea42071",
+        "status": "APPROVED",
+        "lessons": []
+    },
+    {
+        "instructor": "marc",
+        "description": "dddd",
+        "students": [],
+        "title": "control",
+        "courseId": "1c319004-fceb-4d74-b68d-ddd4db96f9e8",
+        "status": "APPROVED",
+        "lessons": []
+    },
+    {
+        "instructor": "marc",
+        "description": "eeee",
+        "students": [],
+        "title": "Logic1",
+        "courseId": "422ce115-22ab-4843-938e-0f1d2c23770d",
+        "status": "REJECTED",
+        "lessons": []
+    },
+    {
+        "instructor": "marc",
+        "description": "yyyy",
+        "students": ["b88e66d9-5ea3-4a1d-b307-6164ddf3d292"],
+        "title": "Logic2",
+        "courseId": "062c04bb-f2bd-49e2-9518-53aad90e51c9",
+        "status": "APPROVED",
+        "lessons": [
+            {
+                "lessonId": "6a37c81f-83de-41c3-ad1d-2517932993c1",
+                "resources": [],
+                "title": "lesson1",
+                "content": "hh"
+            },
+            {
+                "lessonId": "9ddf78a3-fed5-45c0-96ed-42ef15d3bb15",
+                "resources": [],
+                "title": "lesson2",
+                "content": "tt"
+            },
+            {
+                "lessonId": "72fdd145-aaff-492a-a71b-d958d5c169f1",
+                "resources": [],
+                "title": "lesson3",
+                "content": "tt"
+            },
+            {
+                "lessonId": "5f5d02e4-cc46-40d0-b44f-9c74a7b8cbe1",
+                "resources": [],
+                "title": "lesson4",
+                "content": "jjj"
+            }
+        ]
+    }
+]

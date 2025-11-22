@@ -4,9 +4,8 @@
  */
 package FrontEnd;
 import BackEnd.AdminService;
-import BackEnd.Course;
 import BackEnd.JsonDatabaseManager;
-import javax.swing.table.DefaultTableModel;
+import Controller.LoginController;
 
 /**
  *
@@ -16,15 +15,16 @@ public class Pending extends javax.swing.JPanel {
     private JsonDatabaseManager db;
     private AdminService adminService;
     private AdminDashboard dashboard;
+    private LoginController controller;
 
     /**
      * Creates new form Pending
      */
-    public Pending(JsonDatabaseManager db, AdminDashboard dashboard) {
-        initComponents();
-        this.db = db;
-    this.adminService = new AdminService(db);
+    public Pending(LoginController controller, AdminDashboard dashboard) {
+       initComponents();
+   
     this.dashboard = dashboard;
+    this.controller = controller;
     refreshTable();
     }
   public void refreshTable() {
@@ -32,13 +32,13 @@ public class Pending extends javax.swing.JPanel {
     model.setRowCount(0);
     
     try {
-        if (adminService == null) 
+        if (controller == null) 
             return;
         
-        java.util.List<BackEnd.Course> list = adminService.getPendingCourses(); 
+        java.util.List<BackEnd.Course> list = controller.getPendingCourses(); 
         if (list == null) return;
         for(BackEnd.Course c : list) {
-            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getInstructorId()});
+            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getInstructor()});
         }
     } catch (Exception e) {
     }
@@ -121,8 +121,8 @@ public class Pending extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))

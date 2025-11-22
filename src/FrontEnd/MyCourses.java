@@ -11,6 +11,7 @@ import BackEnd.Student;
 import Controller.LoginController;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -52,7 +53,7 @@ public class MyCourses extends javax.swing.JFrame {
         myCoursesTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         back = new javax.swing.JButton();
-        Viewlessons = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,6 +71,7 @@ public class MyCourses extends javax.swing.JFrame {
         jScrollPane1.setViewportView(myCoursesTable);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
         jLabel1.setText("Courses you are enrolled in");
 
         back.setText("back");
@@ -79,10 +81,10 @@ public class MyCourses extends javax.swing.JFrame {
             }
         });
 
-        Viewlessons.setText("View lessons");
-        Viewlessons.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("View lessons");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewlessonsActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -98,7 +100,7 @@ public class MyCourses extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(back)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Viewlessons)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -111,7 +113,7 @@ public class MyCourses extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
-                    .addComponent(Viewlessons))
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -123,20 +125,25 @@ public class MyCourses extends javax.swing.JFrame {
         dashboard.setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
-    private void ViewlessonsActionPerformed(java.awt.event.ActionEvent evt) {
-        int sel = myCoursesTable.getSelectedRow();
-        if (sel < 0) return;
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         int sel = myCoursesTable.getSelectedRow();
+        if (sel < 0) {
+            JOptionPane.showMessageDialog(this, "select a course first to view your lessons");
+            return;
+        }
         String courseId = (String) myCoursesTable.getValueAt(sel, 0);
         Course c = controller.getCourseById(courseId);
         new ViewLessons(currentStudent, controller, dashboard, c).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_ViewlessonsActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+                                             
 
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Viewlessons;
     private javax.swing.JButton back;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable myCoursesTable;

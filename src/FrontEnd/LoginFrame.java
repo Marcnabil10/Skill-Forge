@@ -2,10 +2,9 @@
 package FrontEnd;
 
 
+import BackEnd.Admin;
 import BackEnd.Instructor;
-import BackEnd.InstructorService;
 import BackEnd.Student;
-import BackEnd.StudentService;
 import BackEnd.User;
 import Controller.LoginController;
 
@@ -48,6 +47,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         Login = new javax.swing.JButton();
+        Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,6 +64,13 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        Logout.setText("Logout");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,8 +80,11 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(170, 170, 170)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(Login, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(Login)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Logout))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,7 +110,9 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(Login)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Login)
+                    .addComponent(Logout))
                 .addContainerGap(183, Short.MAX_VALUE))
         );
 
@@ -135,9 +147,9 @@ public class LoginFrame extends javax.swing.JFrame {
                 return;
             }
 
-            Student student = controller.getStudent(user); // controller ensures it's a student
+            Student student = controller.getStudent(user); 
             if (student == null) {
-                JOptionPane.showMessageDialog(this, "User is not a student in backend");
+                JOptionPane.showMessageDialog(this, "User isn't found in the database");
                 return;
             }
             StudentManagement dash = new StudentManagement(student, controller);
@@ -155,7 +167,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
             Instructor instructor = controller.getInstructor(user);
             if (instructor == null) {
-                JOptionPane.showMessageDialog(this, "User is not an instructor in backend");
+                JOptionPane.showMessageDialog(this, "User isn't found in the database");
                 return;
             }
             InstructorDashboard dash = new InstructorDashboard(instructor, controller, this);
@@ -164,7 +176,24 @@ public class LoginFrame extends javax.swing.JFrame {
             this.setVisible(false);
             break;
         }
-
+        
+        case "admin":{
+            if(!(user instanceof Admin)){
+                JOptionPane.showMessageDialog(this, "User is not an admin in JSON file");
+                return;
+            }
+            
+            Admin admin = controller.getAdmin(user);
+            if(admin == null){
+                JOptionPane.showMessageDialog(this, "User isn't found in the database");
+                return;
+            }
+            AdminDashboard dashboard = new AdminDashboard(admin , controller);
+            dashboard.setVisible(true);
+            this.setVisible(false);
+            break;
+        
+        }
         default:
             JOptionPane.showMessageDialog(this, "Unknown role in JSON: " + user.getRole());
             break;
@@ -172,10 +201,17 @@ public class LoginFrame extends javax.swing.JFrame {
     
     }//GEN-LAST:event_LoginActionPerformed
 
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        LoginSignup dash = new LoginSignup(controller);
+        dash.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_LogoutActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Login;
+    private javax.swing.JButton Logout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

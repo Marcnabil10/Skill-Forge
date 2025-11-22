@@ -1,0 +1,67 @@
+[
+    {
+        "role": "admin",
+        "userId": "6a0dea18-1b20-4c25-9980-19c242593854",
+        "email": "a@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "abram"
+    },
+    {
+        "role": "student",
+        "certificates": [],
+        "enrolledCourses": [
+            {
+                "instructor": "ebraam",
+                "description": "tttt",
+                "students": ["b88e66d9-5ea3-4a1d-b307-6164ddf3d292"],
+                "title": "prog2",
+                "courseId": "d713f9cd-4c2a-413d-bd59-49aabffcc83c",
+                "status": "APPROVED",
+                "lessons": []
+            },
+            {
+                "instructor": "marc",
+                "description": "yyyy",
+                "students": ["b88e66d9-5ea3-4a1d-b307-6164ddf3d292"],
+                "title": "Logic2",
+                "courseId": "062c04bb-f2bd-49e2-9518-53aad90e51c9",
+                "status": "APPROVED",
+                "lessons": []
+            }
+        ],
+        "progress": {"062c04bb-f2bd-49e2-9518-53aad90e51c9": [
+            "6a37c81f-83de-41c3-ad1d-2517932993c1",
+            "9ddf78a3-fed5-45c0-96ed-42ef15d3bb15"
+        ]},
+        "userId": "b88e66d9-5ea3-4a1d-b307-6164ddf3d292",
+        "email": "s@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "sophie"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": [],
+        "userId": "f0b0ca2a-f364-4794-834e-c53f7c4dec56",
+        "email": "m@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "marc"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": [],
+        "userId": "fa60e6d6-99c1-4390-a06a-2d6bf77f0c5a",
+        "email": "ee@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "ebraam"
+    },
+    {
+        "role": "student",
+        "certificates": [],
+        "enrolledCourses": [],
+        "progress": {},
+        "userId": "95725be5-e1e3-49c6-9708-f5fc5e27fc8c",
+        "email": "tt@gmail.com",
+        "passwordHash": "lsrjXOipsCRBeL8o5JZsLOG4OFcjqWprg4hYzdbKCh4=",
+        "username": "tony"
+    }
+]

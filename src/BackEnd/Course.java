@@ -21,16 +21,16 @@ public class Course {
     private String courseId;
     private String title;
     private String description;
-    private String instructorId;
+    private String instructor;
     private List <Lesson> lessons;
     private List <String> students;
     private String status;
 
-   public Course(String courseId, String title, String description, String instructorId) {
+   public Course(String courseId, String title, String description, String instructor) {
     this.courseId = courseId;  
     this.title = title;
     this.description = description;
-    this.instructorId = instructorId;
+    this.instructor = instructor;
     this.lessons = new ArrayList<>();
     this.students = new ArrayList<>();
     this.status=STATUS_PENDING;//byebda2 el course pending
@@ -39,7 +39,7 @@ public class Course {
         this.courseId = jsonObject.optString("courseId");
         this.title = jsonObject.optString("title");
         this.description = jsonObject.optString("description");
-        this.instructorId = jsonObject.optString("instructorId");
+        this.instructor = jsonObject.optString("instructor");
         this.lessons = new ArrayList<>();
         this.students = new ArrayList<>();
         if (jsonObject.has("students")) {
@@ -104,8 +104,8 @@ public class Course {
         return description;
     }
 
-    public String getInstructorId() {
-        return instructorId;
+    public String getInstructor() {
+        return instructor;
     }
 
     public List<Lesson> getLessons() {
@@ -148,7 +148,7 @@ public class Course {
         json.put("courseId", courseId);
         json.put("title", title);
         json.put("description", description);
-        json.put("instructorId", instructorId);
+        json.put("instructor", instructor);
         json.put("status", this.status);
         
         JSONArray lessonsArray = new JSONArray();
