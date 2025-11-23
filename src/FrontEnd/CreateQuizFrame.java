@@ -18,24 +18,28 @@ import javax.swing.table.DefaultTableModel;
  * @author abramehab
  */
 public class CreateQuizFrame extends javax.swing.JFrame {
-      private Course currentCourse;
-      private Instructor currentinstructor;
-      private Lesson lesson;
+    private Course currentCourse;
+    private Instructor currentinstructor;
+    private Lesson lesson;
     private LoginController controller;
     private DefaultTableModel tableModel;
     private Quiz quiz;
+    private LoginFrame loginFrame;
 
-    public CreateQuizFrame(Instructor currentinstructor,Course currentCourse,Lesson lesson, LoginController controller) {
+
+    public CreateQuizFrame(Instructor currentinstructor, Course currentCourse, Lesson lesson,
+                           LoginController controller, LoginFrame loginFrame) {
         this.lesson = lesson;
         this.controller = controller;
         this.currentCourse = currentCourse;
         this.currentinstructor = currentinstructor;
+        this.loginFrame = loginFrame;
         initComponents();
         tableModel = (DefaultTableModel) questionsTable.getModel();
-        quiz = new Quiz("New Quiz", 1); // default title and 1 attempt
+        quiz = new Quiz("New Quiz", 1);
     }
-    
-    
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,15 +68,15 @@ public class CreateQuizFrame extends javax.swing.JFrame {
         jLabel1.setText("Create quiz for the lesson");
 
         questionsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Questions"
-            }
+                new Object [][] {
+                        {null},
+                        {null},
+                        {null},
+                        {null}
+                },
+                new String [] {
+                        "Questions"
+                }
         ));
         jScrollPane1.setViewportView(questionsTable);
 
@@ -113,110 +117,110 @@ public class CreateQuizFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(REMOVEQuestion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ADDQuestion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(SAVEQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(184, 184, 184)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtQuizTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerAttempts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(200, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addContainerGap())
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jButton1)
+                                                .addContainerGap())
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(REMOVEQuestion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(ADDQuestion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(26, 26, 26))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(SAVEQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(15, 15, 15))))
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(184, 184, 184)
+                                                .addComponent(jLabel1))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtQuizTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jLabel4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(spinnerAttempts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(200, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtQuizTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(spinnerAttempts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ADDQuestion)
-                        .addGap(18, 18, 18)
-                        .addComponent(REMOVEQuestion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SAVEQuiz)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(txtQuizTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(spinnerAttempts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(ADDQuestion)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(REMOVEQuestion)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(SAVEQuiz)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                                                .addComponent(jButton1))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void ADDQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADDQuestionActionPerformed
-       String qText = JOptionPane.showInputDialog(this, "Enter question text:");
-    if (qText == null || qText.trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Question cannot be empty!");
-        return;
-    }
-
-    String[] options = new String[4];
-    for (int i = 0; i < 4; i++) {
-        String label = "" + (char)('A' + i);
-        String opt = JOptionPane.showInputDialog(this, "Enter option " + label + ":");
-        if (opt == null || opt.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "All options must be filled!");
+        String qText = JOptionPane.showInputDialog(this, "Enter question text:");
+        if (qText == null || qText.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Question cannot be empty!");
             return;
         }
-        options[i] = opt;
-    }
 
-    int correctIndex;
-    try {
-        String correctStr = JOptionPane.showInputDialog(this, "Enter correct option index (0-3):");
-        correctIndex = Integer.parseInt(correctStr);
-        if (correctIndex < 0 || correctIndex > 3) throw new NumberFormatException();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Correct index must be 0,1,2, or 3.");
-        return;
-    }
+        String[] options = new String[4];
+        for (int i = 0; i < 4; i++) {
+            String label = "" + (char)('A' + i);
+            String opt = JOptionPane.showInputDialog(this, "Enter option " + label + ":");
+            if (opt == null || opt.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All options must be filled!");
+                return;
+            }
+            options[i] = opt;
+        }
 
-    Question q = new Question(qText, options[0], options[1], options[2], options[3], correctIndex);
-    quiz.addQuestion(q);
+        int correctIndex;
+        try {
+            String correctStr = JOptionPane.showInputDialog(this, "Enter correct option index (0-3):");
+            correctIndex = Integer.parseInt(correctStr);
+            if (correctIndex < 0 || correctIndex > 3) throw new NumberFormatException();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Correct index must be 0,1,2, or 3.");
+            return;
+        }
 
-    tableModel.addRow(new Object[]{qText});
+        Question q = new Question(qText, options[0], options[1], options[2], options[3], correctIndex);
+        quiz.addQuestion(q);
+
+        tableModel.addRow(new Object[]{qText});
 
     }//GEN-LAST:event_ADDQuestionActionPerformed
 
     private void REMOVEQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_REMOVEQuestionActionPerformed
-         int selectedRow = questionsTable.getSelectedRow();
+        int selectedRow = questionsTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Select a question to remove.");
             return;
@@ -226,35 +230,35 @@ public class CreateQuizFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_REMOVEQuestionActionPerformed
 
     private void SAVEQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SAVEQuizActionPerformed
-       String title = txtQuizTitle.getText().trim();
-    if (title.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Quiz title cannot be empty.");
-        return;
-    }
-    else if((Integer) spinnerAttempts.getValue() < 0 ){
-        JOptionPane.showMessageDialog(null, "select number of attempts ");
-        return;
-    }
-  
-    quiz.setTitle(title);
-    quiz.setAttempts((Integer) spinnerAttempts.getValue());
+        String title = txtQuizTitle.getText().trim();
+        if (title.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Quiz title cannot be empty.");
+            return;
+        }
+        else if((Integer) spinnerAttempts.getValue() < 0 ){
+            JOptionPane.showMessageDialog(null, "select number of attempts ");
+            return;
+        }
 
-    lesson.setQuiz(quiz);
-   
-    controller.updateCourse(currentCourse);
+        quiz.setTitle(title);
+        quiz.setAttempts((Integer) spinnerAttempts.getValue());
 
-    JOptionPane.showMessageDialog(this, "Quiz saved successfully!");
-   
+        lesson.setQuiz(quiz);
+
+        controller.updateCourse(currentCourse);
+
+        JOptionPane.showMessageDialog(this, "Quiz saved successfully!");
+
     }//GEN-LAST:event_SAVEQuizActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        LessonSelectedFrame fm = new LessonSelectedFrame(currentinstructor,currentCourse, controller);
+
+        LessonSelectedFrame fm = new LessonSelectedFrame(currentinstructor,currentCourse, controller,loginFrame);
         fm.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ADDQuestion;
