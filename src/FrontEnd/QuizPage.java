@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 /**
  *
- * @author Æ® ê¹ Æ Æ´
+ * @author Ʈ Ꝺ Ɲ ƴ
  */
 public class QuizPage extends javax.swing.JFrame {
     private LoginController controller;
@@ -35,6 +35,8 @@ public class QuizPage extends javax.swing.JFrame {
         this.currentGroup = new ButtonGroup();
         this.resultPanel = new Results(controller, this, dashboard);
         resultPanel.setVisible(false);
+
+        // ADD THESE DEBUG LINES:
         System.out.println("Current Lesson: " + controller.getCurrentLesson());
         System.out.println("Current Course: " + controller.getCurrentCourse());
         
@@ -56,6 +58,8 @@ public class QuizPage extends javax.swing.JFrame {
         this.currentGroup = new javax.swing.ButtonGroup();
         lblLesson.setText(controller.getCurrentLessonTitle());
         lblnum.setText(String.valueOf(total));
+        
+        // FIX: Set larger window size to ensure buttons are visible
         this.setSize(600, 600);
         
         loadQuestion(0);
@@ -95,9 +99,9 @@ public class QuizPage extends javax.swing.JFrame {
             rb.setFont(new java.awt.Font("Segoe UI", 0, 14));
             rb.setActionCommand(String.valueOf(i)); 
             
-            rb.setForeground(java.awt.Color.BLACK);
+            rb.setForeground(java.awt.Color.BLACK); // Changed from WHITE to BLACK
             rb.setOpaque(true);
-            rb.setBackground(new java.awt.Color(240, 240, 240));
+            rb.setBackground(new java.awt.Color(240, 240, 240)); // Light background
 
             if (studentAnswers.getOrDefault(index, -1) == i) {
                 rb.setSelected(true);
