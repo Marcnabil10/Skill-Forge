@@ -225,7 +225,7 @@ public class CertificateDetails extends javax.swing.JPanel {
 
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+   
 
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblDate;
