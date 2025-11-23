@@ -1,4 +1,3 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -30,20 +29,18 @@ public class Results extends javax.swing.JPanel {
         btnRetry.setVisible(false);
     }
     public void showResult(String scoreText, boolean passed, List<Integer> userAnswers) {
-      
-        lblScore.setText(scoreText);
+       lblScore.setText(scoreText);
+        lblScore.setPreferredSize(new java.awt.Dimension(300, 40));
 
         if (passed) {
             lblStatus.setText("Status: PASSED");
-      
+         
         } else {
             lblStatus.setText("Status: FAILED");
-          
+           
         }
       
-        btnContinue.setEnabled(passed); // Only enable Continue if passed
-        
-      
+        btnContinue.setEnabled(passed);
         BackEnd.Quiz quiz = controller.getCurrentQuiz();
         String user = controller.getCurrentStudent().getUsername();
   
@@ -53,16 +50,24 @@ public class Results extends javax.swing.JPanel {
         } else {
             btnRetry.setVisible(false);
         }
-        StringBuilder sb = new StringBuilder("<html><b>Correct Answers:</b><br>");
+        StringBuilder sb = new StringBuilder("<html><body style='width: 350px;'>");
+        sb.append("<h3>Quiz Review:</h3>");
         int total = controller.getQuizQuestionCount();
         
         for (int i = 0; i < total; i++) {
             String qText = controller.getQuestionText(i);
-            sb.append("Q").append(i + 1).append(": ").append(qText).append("<br>");
+            List<String> options = controller.getQuestionOptions(i);
+            int correctAnswer = quiz.getQuestions().get(i).getCorrectIndex();
+            int userAnswer = userAnswers.get(i);
+            
+            sb.append("<b>Q").append(i + 1).append(": ").append(qText).append("</b><br>");
+            sb.append("Your answer: ").append(userAnswer >= 0 && userAnswer < options.size() ? options.get(userAnswer) : "Not answered").append("<br>");
+            sb.append("Correct answer: ").append(options.get(correctAnswer)).append("<br><br>");
         }
-        sb.append("</html>");
+        sb.append("</body></html>");
         
         lblAnswerList.setText(sb.toString());
+        lblAnswerList.setPreferredSize(new java.awt.Dimension(400, 300));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,20 +125,17 @@ public class Results extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblScore, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE) // INCREASED WIDTH
                     .addComponent(lblStatus)
+                    .addComponent(lblAnswerList, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE) // INCREASED WIDTH
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnContinue)
-                            .addComponent(lblAnswerList))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRetry)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                                .addComponent(jButton3)))))
-                .addGap(35, 35, 35))
+                        .addComponent(btnContinue)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRetry)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3))
+                    .addComponent(jLabel1))
+                .addContainerGap(50, Short.MAX_VALUE)) // ADDED MARGIN
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,22 +143,22 @@ public class Results extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(lblScore)
+                .addComponent(lblScore, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE) // FIXED HEIGHT
                 .addGap(18, 18, 18)
-                .addComponent(lblAnswerList)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                .addComponent(lblAnswerList, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE) // FIXED HEIGHT
+                .addGap(18, 18, 18)
                 .addComponent(lblStatus)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnContinue)
                     .addComponent(btnRetry)
                     .addComponent(jButton3))
-                .addGap(25, 25, 25))
+                .addContainerGap(50, Short.MAX_VALUE)) // ADDED BOTTOM MARGIN
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinueActionPerformed
-BackEnd.Course course = controller.getCurrentCourse();
+        BackEnd.Course course = controller.getCurrentCourse();
         java.util.List<BackEnd.Lesson> lessons = course.getLessons();
         BackEnd.Lesson current = controller.getCurrentLesson();
         
@@ -181,211 +183,14 @@ BackEnd.Course course = controller.getCurrentCourse();
 
     private void btnRetryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetryActionPerformed
        parentFrame.dispose();
-    new QuizPage(controller, dashboard).setVisible(true);
+       new QuizPage(controller, dashboard).setVisible(true);
     }//GEN-LAST:event_btnRetryActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        parentFrame.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnContinue;
-    private javax.swing.JButton btnRetry;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel lblAnswerList;
-    private javax.swing.JLabel lblScore;
-    private javax.swing.JLabel lblStatus;
-    // End of variables declaration//GEN-END:variables
-}
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
-package FrontEnd;
-
-import Controller.LoginController;
-import java.awt.Color;
-import java.util.List;
-import javax.swing.JOptionPane;
-/**
- *
- * @author Ʈ Ꝺ Ɲ ƴ
- */
-public class Results extends javax.swing.JPanel {
-
-    private LoginController controller;
-    private QuizPage parentFrame;
-    private StudentManagement dashboard;
-    /**
-     * Creates new form Results
-     */
-   public Results(LoginController controller, QuizPage parentFrame, StudentManagement dashboard) {
-        initComponents();
-        this.controller = controller;
-        this.parentFrame = parentFrame;
-        this.dashboard = dashboard;
-        
-        btnRetry.setVisible(false);
-    }
-    public void showResult(String scoreText, boolean passed, List<Integer> userAnswers) {
-      
-        lblScore.setText(scoreText);
-
-        if (passed) {
-            lblStatus.setText("Status: PASSED");
-      
-        } else {
-            lblStatus.setText("Status: FAILED");
-          
-        }
-      
-        btnContinue.setEnabled(passed); // Only enable Continue if passed
-        
-      
-        BackEnd.Quiz quiz = controller.getCurrentQuiz();
-        String user = controller.getCurrentStudent().getUsername();
-  
-        if (!passed && quiz.freeAttempts(user)) {
-            btnRetry.setVisible(true);
-            btnRetry.setText("Retry"); 
-        } else {
-            btnRetry.setVisible(false);
-        }
-        StringBuilder sb = new StringBuilder("<html><b>Correct Answers:</b><br>");
-        int total = controller.getQuizQuestionCount();
-        
-        for (int i = 0; i < total; i++) {
-            String qText = controller.getQuestionText(i);
-            sb.append("Q").append(i + 1).append(": ").append(qText).append("<br>");
-        }
-        sb.append("</html>");
-        
-        lblAnswerList.setText(sb.toString());
-    }
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jLabel1 = new javax.swing.JLabel();
-        lblScore = new javax.swing.JLabel();
-        lblAnswerList = new javax.swing.JLabel();
-        lblStatus = new javax.swing.JLabel();
-        btnContinue = new javax.swing.JButton();
-        btnRetry = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Quiz Result");
-
-        lblScore.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblScore.setForeground(new java.awt.Color(255, 0, 102));
-        lblScore.setText("You scored : ...");
-
-        lblAnswerList.setText("Loading answers...");
-
-        lblStatus.setText("Status : passed");
-
-        btnContinue.setText("Continue");
-        btnContinue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnContinueActionPerformed(evt);
-            }
-        });
-
-        btnRetry.setText("Retry");
-        btnRetry.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRetryActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Back");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblScore, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblStatus)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnContinue)
-                            .addComponent(lblAnswerList))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRetry)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                                .addComponent(jButton3)))))
-                .addGap(35, 35, 35))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(lblScore)
-                .addGap(18, 18, 18)
-                .addComponent(lblAnswerList)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
-                .addComponent(lblStatus)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnContinue)
-                    .addComponent(btnRetry)
-                    .addComponent(jButton3))
-                .addGap(25, 25, 25))
-        );
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void btnContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinueActionPerformed
-BackEnd.Course course = controller.getCurrentCourse();
-        java.util.List<BackEnd.Lesson> lessons = course.getLessons();
-        BackEnd.Lesson current = controller.getCurrentLesson();
-        
-        int currentIndex = -1;
-        for(int i=0; i<lessons.size(); i++) {
-            if(lessons.get(i).getLessonId().equals(current.getLessonId())) {
-                currentIndex = i;
-                break;
-            }
-        }
-        
-        if (currentIndex != -1 && currentIndex + 1 < lessons.size()) {
-            BackEnd.Lesson nextLesson = lessons.get(currentIndex + 1);
-            controller.setCurrentSession(controller.getCurrentStudent(), course, nextLesson);
-            parentFrame.dispose();
-            JOptionPane.showMessageDialog(this, "Opening Next Lesson: " + nextLesson.getTitle());
-        } else {
-            JOptionPane.showMessageDialog(this, "Course Completed! Check your dashboard for a certificate.");
-            parentFrame.dispose();
-        }
-    }//GEN-LAST:event_btnContinueActionPerformed
-
-    private void btnRetryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetryActionPerformed
-       parentFrame.dispose();
-    new QuizPage(controller, dashboard).setVisible(true);
-    }//GEN-LAST:event_btnRetryActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       parentFrame.dispose();
+       if (dashboard != null) {
+           dashboard.setVisible(true);
+       }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
