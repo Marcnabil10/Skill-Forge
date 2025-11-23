@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package FrontEnd;
-
 import Controller.LoginController;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -13,144 +12,131 @@ import java.util.Map;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-
 /**
  *
- * @author Ʈ Ꝺ Ɲ ƴ
+ * @author Æ® ê¹ Æ Æ´
  */
 public class QuizPage extends javax.swing.JFrame {
-
     private LoginController controller;
     private int currentQuestionIndex = 0;
     private Map<Integer, Integer> studentAnswers = new HashMap<>();
     private ButtonGroup currentGroup;
-
     private ViewLessons dashboard;
+     private Results resultPanel;
 
     public QuizPage(LoginController controller , ViewLessons dashboard) {
-
-    private StudentManagement dashboard;
-    private Results resultPanel;
-
-    public QuizPage(LoginController controller, StudentManagement dashboard) {
-
         initComponents();
+        System.out.println("=== DEBUG: QuizPage Constructor ===");
+        System.out.println("Controller: " + controller);
+        System.out.println("Dashboard: " + dashboard);
+        
         this.controller = controller;
         this.dashboard = dashboard;
+        this.currentGroup = new ButtonGroup();
         this.resultPanel = new Results(controller, this, dashboard);
+        resultPanel.setVisible(false);
+        System.out.println("Current Lesson: " + controller.getCurrentLesson());
+        System.out.println("Current Course: " + controller.getCurrentCourse());
+        
+        if (controller.getCurrentLesson() != null) {
+            System.out.println("Lesson Quiz: " + controller.getCurrentLesson().getQuiz());
+            if (controller.getCurrentLesson().getQuiz() != null) {
+                System.out.println("Quiz Questions: " + controller.getCurrentLesson().getQuiz().getQuestions().size());
+            }
+        }
 
         int total = controller.getQuizQuestionCount();
+        System.out.println("Total questions from controller: " + total);
+        
         if (total == 0) {
             JOptionPane.showMessageDialog(this, "Error: No questions found.");
             dispose();
             return;
         }
-
         this.currentGroup = new javax.swing.ButtonGroup();
-
-        this.currentGroup = new ButtonGroup();
         lblLesson.setText(controller.getCurrentLessonTitle());
         lblnum.setText(String.valueOf(total));
-
+        this.setSize(600, 600);
+        
         loadQuestion(0);
     }
-
     /**
      * Creates new form QuizPage
      */
     public QuizPage() {
         initComponents();
+        System.out.println("=== DEBUG: EMPTY CONSTRUCTOR CALLED ===");
+        System.out.println("THIS IS THE PROBLEM! Use the constructor with parameters!");
     }
-
-    
-    
-    
     private void loadQuestion(int index) {
-        int total = 1;
+    try {
+        System.out.println("=== DEBUG loadQuestion START ===");
+        System.out.println("Current index: " + index);
+        
+        int total = controller.getQuizQuestionCount();
+        System.out.println("Total questions: " + total);
+        
         java.util.List<String> options = controller.getQuestionOptions(index);
+        System.out.println("Options count: " + options.size());
+        System.out.println("Question text: " + controller.getQuestionText(index));
         
         lblQCounter.setText("Question " + (index + 1) + " of " + total);
         lblQText.setText("<html>" + controller.getQuestionText(index) + "</html>"); 
         
-       
+        System.out.println("Before removing old components...");
         pnlOptions.removeAll();
         pnlOptions.setLayout(new javax.swing.BoxLayout(pnlOptions, javax.swing.BoxLayout.Y_AXIS));
         currentGroup = new javax.swing.ButtonGroup();
         
-      
+        System.out.println("Creating radio buttons...");
         for (int i = 0; i < options.size(); i++) {
+            System.out.println("Creating option " + i + ": " + options.get(i));
             javax.swing.JRadioButton rb = new javax.swing.JRadioButton(options.get(i));
             rb.setFont(new java.awt.Font("Segoe UI", 0, 14));
             rb.setActionCommand(String.valueOf(i)); 
             
-           
-            rb.setForeground(java.awt.Color.WHITE); 
-            rb.setOpaque(false); 
-
-
-    private void loadQuestion(int index) {
-        int total = controller.getQuizQuestionCount();
-        java.util.List<String> options = controller.getQuestionOptions(index);
-
-        lblQCounter.setText("Question " + (index + 1) + " of " + total);
-        lblQText.setText("<html>" + controller.getQuestionText(index) + "</html>");
-
-        pnlOptions.removeAll();
-        currentGroup = new javax.swing.ButtonGroup();
-
-        for (int i = 0; i < options.size(); i++) {
-            javax.swing.JRadioButton rb = new javax.swing.JRadioButton(options.get(i));
-            rb.setFont(new java.awt.Font("Segoe UI", 0, 14));
-            rb.setActionCommand(String.valueOf(i));
-
+            rb.setForeground(java.awt.Color.BLACK);
+            rb.setOpaque(true);
+            rb.setBackground(new java.awt.Color(240, 240, 240));
 
             if (studentAnswers.getOrDefault(index, -1) == i) {
                 rb.setSelected(true);
             }
-
             
             currentGroup.add(rb); 
             pnlOptions.add(rb);   
+            System.out.println("Option " + i + " added to panel");
         }
         
-
-            currentGroup.add(rb);
-            pnlOptions.add(rb);
-        }
-
-
         if (index == total - 1) {
             btnNext.setText("Finish");
         } else {
             btnNext.setText("Next");
         }
-
         
-
-
-
+        System.out.println("Before revalidating panels...");
         pnlOptions.revalidate();
         pnlOptions.repaint();
         pnlQuestionArea.revalidate();
         pnlQuestionArea.repaint();
+        
+        System.out.println("Components in pnlOptions: " + pnlOptions.getComponentCount());
+        System.out.println("=== DEBUG loadQuestion END ===\n");
+        
+    } catch (Exception e) {
+        System.out.println("ERROR in loadQuestion: " + e.getMessage());
+        e.printStackTrace();
     }
-
+}
     private void saveAnswer() {
-        if (currentGroup.getSelection() != null) {
-            int ans = Integer.parseInt(currentGroup.getSelection().getActionCommand());
-            studentAnswers.put(currentQuestionIndex, ans);
-        }
+    if (currentGroup == null || currentGroup.getSelection() == null) {
+        return;
     }
-
     
     int ans = Integer.parseInt(currentGroup.getSelection().getActionCommand());
     studentAnswers.put(currentQuestionIndex, ans);
 }
    private void submit() {
-
-
-    private void submit() {
-
         java.util.List<Integer> answers = new java.util.ArrayList<>();
         int total = controller.getQuizQuestionCount();
 
@@ -161,33 +147,14 @@ public class QuizPage extends javax.swing.JFrame {
         String resultMsg = controller.submitCurrentQuiz(answers);
         boolean passed = resultMsg.contains("PASSED");
 
-
-        
-        this.getContentPane().removeAll();
-        this.setLayout(new java.awt.BorderLayout());
-        
-        
-        //this.add(Results);
-        //resultPanel.setVisible(true);
-
-        //resultPanel.showResult(resultMsg, passed, answers);
-
-        if (passed) {
-        controller.markLessonCompleted(
-            controller.getCurrentStudent(), 
-            controller.getCurrentCourse(), 
-            controller.getCurrentLesson()
-        );
-    }
-
+        // SWITCH SCREENS
         this.getContentPane().removeAll();
         this.setLayout(new java.awt.BorderLayout());
 
-        this.add(resultPanel);
+       this.add(resultPanel);
         resultPanel.setVisible(true);
 
         resultPanel.showResult(resultMsg, passed, answers);
-
 
         this.revalidate();
         this.repaint();
@@ -199,7 +166,7 @@ public class QuizPage extends javax.swing.JFrame {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel3 = new javax.swing.JLabel();
@@ -234,7 +201,8 @@ public class QuizPage extends javax.swing.JFrame {
 
         lblQText.setText("....");
 
-        pnlOptions.setLayout(new javax.swing.BoxLayout(pnlOptions, javax.swing.BoxLayout.LINE_AXIS));
+        // FIXED THIS LINE - Changed from LINE_AXIS to Y_AXIS
+        pnlOptions.setLayout(new javax.swing.BoxLayout(pnlOptions, javax.swing.BoxLayout.Y_AXIS));
 
         javax.swing.GroupLayout pnlQuestionAreaLayout = new javax.swing.GroupLayout(pnlQuestionArea);
         pnlQuestionArea.setLayout(pnlQuestionAreaLayout);
@@ -316,7 +284,7 @@ public class QuizPage extends javax.swing.JFrame {
                     .addComponent(lblnum))
                 .addGap(18, 18, 18)
                 .addComponent(pnlQuestionArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE) // CHANGED FROM 36 to 50
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExit)
                     .addComponent(btnNext))
@@ -324,21 +292,10 @@ public class QuizPage extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
-
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {                                        
-
+    }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
          
-
-       
-        if (currentGroup == null) {
-            return;
-        }
-
-       
-
         if (currentGroup == null) {
             return;
         }
@@ -360,25 +317,15 @@ public class QuizPage extends javax.swing.JFrame {
             if (confirm == javax.swing.JOptionPane.YES_OPTION) submit();
         }
 
-
     }//GEN-LAST:event_btnNextActionPerformed
-=======
-    }                                       
 
-
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
 
         if (dashboard != null) {
             dashboard.setVisible(true);
         }
-
             dispose();
     }//GEN-LAST:event_btnExitActionPerformed
-
-        dispose();
-
-    }                                       
-
 
     /**
      * @param args the command line arguments
@@ -415,7 +362,7 @@ public class QuizPage extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnNext;
     private javax.swing.JLabel jLabel1;
@@ -428,5 +375,5 @@ public class QuizPage extends javax.swing.JFrame {
     private javax.swing.JLabel lblnum;
     private javax.swing.JPanel pnlOptions;
     private javax.swing.JPanel pnlQuestionArea;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
 }
