@@ -13,6 +13,7 @@ import javax.swing.JFrame;
  */
 public class ChartFrame extends javax.swing.JFrame {
     private Course currentCourse;
+   
     /**
      * Creates new form ChartFrame
      */

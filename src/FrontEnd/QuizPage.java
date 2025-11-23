@@ -24,10 +24,16 @@ public class QuizPage extends javax.swing.JFrame {
     private int currentQuestionIndex = 0;
     private Map<Integer, Integer> studentAnswers = new HashMap<>();
     private ButtonGroup currentGroup;
+
+    private ViewLessons dashboard;
+
+    public QuizPage(LoginController controller , ViewLessons dashboard) {
+
     private StudentManagement dashboard;
     private Results resultPanel;
 
     public QuizPage(LoginController controller, StudentManagement dashboard) {
+
         initComponents();
         this.controller = controller;
         this.dashboard = dashboard;
@@ -39,6 +45,9 @@ public class QuizPage extends javax.swing.JFrame {
             dispose();
             return;
         }
+
+        this.currentGroup = new javax.swing.ButtonGroup();
+
         this.currentGroup = new ButtonGroup();
         lblLesson.setText(controller.getCurrentLessonTitle());
         lblnum.setText(String.valueOf(total));
@@ -52,6 +61,32 @@ public class QuizPage extends javax.swing.JFrame {
     public QuizPage() {
         initComponents();
     }
+
+    
+    
+    
+    private void loadQuestion(int index) {
+        int total = 1;
+        java.util.List<String> options = controller.getQuestionOptions(index);
+        
+        lblQCounter.setText("Question " + (index + 1) + " of " + total);
+        lblQText.setText("<html>" + controller.getQuestionText(index) + "</html>"); 
+        
+       
+        pnlOptions.removeAll();
+        pnlOptions.setLayout(new javax.swing.BoxLayout(pnlOptions, javax.swing.BoxLayout.Y_AXIS));
+        currentGroup = new javax.swing.ButtonGroup();
+        
+      
+        for (int i = 0; i < options.size(); i++) {
+            javax.swing.JRadioButton rb = new javax.swing.JRadioButton(options.get(i));
+            rb.setFont(new java.awt.Font("Segoe UI", 0, 14));
+            rb.setActionCommand(String.valueOf(i)); 
+            
+           
+            rb.setForeground(java.awt.Color.WHITE); 
+            rb.setOpaque(false); 
+
 
     private void loadQuestion(int index) {
         int total = controller.getQuizQuestionCount();
@@ -68,13 +103,21 @@ public class QuizPage extends javax.swing.JFrame {
             rb.setFont(new java.awt.Font("Segoe UI", 0, 14));
             rb.setActionCommand(String.valueOf(i));
 
+
             if (studentAnswers.getOrDefault(index, -1) == i) {
                 rb.setSelected(true);
             }
 
+            
+            currentGroup.add(rb); 
+            pnlOptions.add(rb);   
+        }
+        
+
             currentGroup.add(rb);
             pnlOptions.add(rb);
         }
+
 
         if (index == total - 1) {
             btnNext.setText("Finish");
@@ -82,8 +125,14 @@ public class QuizPage extends javax.swing.JFrame {
             btnNext.setText("Next");
         }
 
+        
+
+
+
         pnlOptions.revalidate();
         pnlOptions.repaint();
+        pnlQuestionArea.revalidate();
+        pnlQuestionArea.repaint();
     }
 
     private void saveAnswer() {
@@ -93,7 +142,15 @@ public class QuizPage extends javax.swing.JFrame {
         }
     }
 
+    
+    int ans = Integer.parseInt(currentGroup.getSelection().getActionCommand());
+    studentAnswers.put(currentQuestionIndex, ans);
+}
+   private void submit() {
+
+
     private void submit() {
+
         java.util.List<Integer> answers = new java.util.ArrayList<>();
         int total = controller.getQuizQuestionCount();
 
@@ -103,6 +160,18 @@ public class QuizPage extends javax.swing.JFrame {
 
         String resultMsg = controller.submitCurrentQuiz(answers);
         boolean passed = resultMsg.contains("PASSED");
+
+
+        
+        this.getContentPane().removeAll();
+        this.setLayout(new java.awt.BorderLayout());
+        
+        
+        //this.add(Results);
+        //resultPanel.setVisible(true);
+
+        //resultPanel.showResult(resultMsg, passed, answers);
+
         if (passed) {
         controller.markLessonCompleted(
             controller.getCurrentStudent(), 
@@ -118,6 +187,7 @@ public class QuizPage extends javax.swing.JFrame {
         resultPanel.setVisible(true);
 
         resultPanel.showResult(resultMsg, passed, answers);
+
 
         this.revalidate();
         this.repaint();
@@ -227,13 +297,14 @@ public class QuizPage extends javax.swing.JFrame {
                 .addComponent(btnExit)
                 .addGap(100, 100, 100))
             .addGroup(layout.createSequentialGroup()
-                .addGap(157, 157, 157)
+                .addGap(233, 233, 233)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -245,7 +316,7 @@ public class QuizPage extends javax.swing.JFrame {
                     .addComponent(lblnum))
                 .addGap(18, 18, 18)
                 .addComponent(pnlQuestionArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExit)
                     .addComponent(btnNext))
@@ -257,16 +328,22 @@ public class QuizPage extends javax.swing.JFrame {
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {                                        
 
-       
-        if (currentGroup == null) {
-            return;
-        }
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+         
 
        
         if (currentGroup == null) {
             return;
         }
 
+       
+
+        if (currentGroup == null) {
+            return;
+        }
+
+        // VALIDATION: Must select an answer
         if (currentGroup.getSelection() == null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select an answer.");
             return;
@@ -282,16 +359,26 @@ public class QuizPage extends javax.swing.JFrame {
             int confirm = javax.swing.JOptionPane.showConfirmDialog(this, "Finish Quiz?", "Submit", javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) submit();
         }
+
+
+    }//GEN-LAST:event_btnNextActionPerformed
+=======
     }                                       
+
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {                                        
 
         if (dashboard != null) {
             dashboard.setVisible(true);
         }
+
+            dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
         dispose();
 
     }                                       
+
 
     /**
      * @param args the command line arguments

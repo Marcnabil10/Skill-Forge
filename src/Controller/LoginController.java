@@ -250,5 +250,7 @@ public class LoginController {
 
         return String.format("Score: %.1f%%\nStatus: %s", result.getScore(), status);
     }
-
+    public boolean save(Course course){
+        return dbManager.save(course);
+    }
 }

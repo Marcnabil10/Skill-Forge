@@ -76,11 +76,16 @@ public class StudentService {
         if (student == null || course == null || lesson == null) {
             return false;
         }
-        if(!(lesson.getQuiz()==null)){
-           
-            if(!(lesson.getQuiz().isPassed(lesson.getQuiz().getScore(student.getUsername()))))
-                return false;
+        if (lesson.getQuiz() != null) {
+             Double score = lesson.getQuiz().getScore(student.getUsername());
+            if (score == null) {
+        return false; 
+    }
+         if (!lesson.getQuiz().isPassed(score)) {
+            return false;
+            }
         }
+
         boolean completed = student.isLessonCompleted(course.getCourseId(), lesson.getLessonId());
         return completed;
     }
