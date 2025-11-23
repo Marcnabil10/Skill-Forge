@@ -29,18 +29,23 @@ public class Results extends javax.swing.JPanel {
         btnRetry.setVisible(false);
     }
     public void showResult(String scoreText, boolean passed, List<Integer> userAnswers) {
-       lblScore.setText(scoreText);
+        // Remove debug code from production!
+      
+        lblScore.setText(scoreText);
+        // Make sure score label has enough space
         lblScore.setPreferredSize(new java.awt.Dimension(300, 40));
 
         if (passed) {
             lblStatus.setText("Status: PASSED");
-         
+            lblStatus.setForeground(Color.GREEN);
         } else {
             lblStatus.setText("Status: FAILED");
-           
+            lblStatus.setForeground(Color.RED);
         }
       
-        btnContinue.setEnabled(passed);
+        btnContinue.setEnabled(passed); // Only enable Continue if passed
+        
+        // Check for retry attempts
         BackEnd.Quiz quiz = controller.getCurrentQuiz();
         String user = controller.getCurrentStudent().getUsername();
   
@@ -50,6 +55,8 @@ public class Results extends javax.swing.JPanel {
         } else {
             btnRetry.setVisible(false);
         }
+        
+        // FIX: Show proper quiz review
         StringBuilder sb = new StringBuilder("<html><body style='width: 350px;'>");
         sb.append("<h3>Quiz Review:</h3>");
         int total = controller.getQuizQuestionCount();
@@ -67,6 +74,7 @@ public class Results extends javax.swing.JPanel {
         sb.append("</body></html>");
         
         lblAnswerList.setText(sb.toString());
+        // Make sure answer list has enough space
         lblAnswerList.setPreferredSize(new java.awt.Dimension(400, 300));
     }
     /**
