@@ -28,21 +28,35 @@ public class Pending extends javax.swing.JPanel {
     refreshTable();
     }
   public void refreshTable() {
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0);
-    
-    try {
-        if (controller == null) 
-            return;
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
         
-        java.util.List<BackEnd.Course> list = controller.getPendingCourses(); 
-        if (list == null) return;
-        for(BackEnd.Course c : list) {
-            model.addRow(new Object[]{c.getCourseId(), c.getTitle(), c.getInstructor()});
+        try {
+            if (controller == null) return;
+            
+            java.util.List<BackEnd.Course> list = controller.getPendingCourses(); 
+            if (list == null) return;
+            
+            for(BackEnd.Course c : list) {
+                java.util.List<BackEnd.Student> students = controller.getEnrolledStudents(c.getCourseId());
+                StringBuilder namesBuilder = new StringBuilder();
+                for (BackEnd.Student s : students) {
+                    if (namesBuilder.length() > 0) {
+                        namesBuilder.append(", ");
+                    }
+                    namesBuilder.append(s.getUsername());
+                }
+                model.addRow(new Object[]{
+                    c.getCourseId(), 
+                    c.getTitle(), 
+                    c.getInstructor(),
+                    namesBuilder.toString() 
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
     }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,17 +79,17 @@ public class Pending extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Course Id", "Title", "Instructor"
+                "Course Id", "Title", "Instructor", "Students"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

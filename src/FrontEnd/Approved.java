@@ -26,18 +26,27 @@ public class Approved extends javax.swing.JPanel {
     }
     
      public void refreshTable() {
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0);
-    for (BackEnd.Course c : controller.getAllCourses()) {
-        if (c.getStatus().equals(BackEnd.Course.STATUS_APPROVED)) {
-            model.addRow(new Object[]{
-                c.getCourseId(), 
-                c.getTitle(), 
-                c.getInstructor()
-            });
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        for (BackEnd.Course c : controller.getAllCourses()) {
+            if (c.getStatus().equals(BackEnd.Course.STATUS_APPROVED)) {
+                java.util.List<BackEnd.Student> students = controller.getEnrolledStudents(c.getCourseId());
+                StringBuilder namesBuilder = new StringBuilder();
+                for (BackEnd.Student s : students) {
+                    if (namesBuilder.length() > 0) {
+                        namesBuilder.append(", ");
+                    }
+                    namesBuilder.append(s.getUsername());
+                }
+                model.addRow(new Object[]{
+                    c.getCourseId(), 
+                    c.getTitle(), 
+                    c.getInstructor(),
+                    namesBuilder.toString() 
+                });
+            }
         }
     }
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,17 +67,17 @@ public class Approved extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Course Id", "Title", "Instructor"
+                "Course Id", "Title", "Instructor", "Students"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
