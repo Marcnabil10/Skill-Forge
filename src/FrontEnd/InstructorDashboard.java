@@ -4,6 +4,8 @@ package FrontEnd;
 import BackEnd.Course;
 import BackEnd.Instructor;
 import BackEnd.Student;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import Controller.LoginController;
@@ -212,11 +214,28 @@ public class InstructorDashboard extends javax.swing.JFrame {
     try {
         boolean success = controller.createCourse(title, description, currentI);
         if (success) {
-            JOptionPane.showMessageDialog(this, "Course created successfully!");
+            ArrayList<Course> myCourses = controller.getMyCourses(currentI.getUsername());
+            if (!myCourses.isEmpty()) {
+                Course newCourse = myCourses.get(myCourses.size() - 1);
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Course created successfully!\n\nCourse ID: " + newCourse.getCourseId(),
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Course created, but could not retrieve Course ID.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }
         } else {
-            JOptionPane.showMessageDialog(this, 
-                "Error: Could not create course. Check console for details.", 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error: Could not create course.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, 
