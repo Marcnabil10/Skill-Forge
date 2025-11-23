@@ -363,8 +363,8 @@ public class InstructorDashboard extends javax.swing.JFrame {
         return;
     }
 
-    
-    LessonSelectedFrame lessonFrame = new LessonSelectedFrame(currentI,course, controller);
+
+    LessonSelectedFrame lessonFrame = new LessonSelectedFrame(currentI,course, controller,loginFrame);
     lessonFrame.setVisible(true);
     this.setVisible(false);
     
