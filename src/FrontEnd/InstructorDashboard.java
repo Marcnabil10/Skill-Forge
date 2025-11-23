@@ -26,9 +26,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         this.loginFrame=loginFrame;
     }
 
-    public InstructorDashboard(){
-    
-    }
+   
 
     private Course FindCourseById(String courseId){
         if(courseId==null||courseId.trim().isEmpty()){
@@ -67,6 +65,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        CreateQuiz = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,6 +129,14 @@ public class InstructorDashboard extends javax.swing.JFrame {
             }
         });
 
+        CreateQuiz.setForeground(new java.awt.Color(102, 0, 0));
+        CreateQuiz.setText("Create Quiz");
+        CreateQuiz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateQuizActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,6 +166,10 @@ public class InstructorDashboard extends javax.swing.JFrame {
                             .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(CreateQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +188,9 @@ public class InstructorDashboard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(CreateQuiz)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(jButton6)
                 .addContainerGap())
         );
@@ -284,12 +297,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         editor.setVisible(true);
         this.setVisible(false);
         editor.setDashboard(this); 
-    
-        
-        
-        
-        
-        
+     
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -324,6 +332,45 @@ public class InstructorDashboard extends javax.swing.JFrame {
        this.setVisible(false);
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void CreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateQuizActionPerformed
+    List<Course> instructorCourses = controller.getMyCourses(currentI.getUsername());
+    if(instructorCourses.isEmpty()){
+        JOptionPane.showMessageDialog(this, "You don't have any courses yet.");
+        return;
+    }
+
+    
+    String[] courseTitles = new String[instructorCourses.size()];
+    for(int i=0;i<instructorCourses.size();i++){
+        courseTitles[i] = instructorCourses.get(i).getTitle() + " (" + instructorCourses.get(i).getCourseId() + ")";
+    }
+    String selectedCourse = (String) JOptionPane.showInputDialog(
+            this, 
+            "Select a course:", 
+            "Course Selection", 
+            JOptionPane.PLAIN_MESSAGE, 
+            null, 
+            courseTitles, 
+            courseTitles[0]);
+
+    if(selectedCourse == null) return; 
+
+   
+    String selectedCourseId = selectedCourse.substring(selectedCourse.indexOf("(")+1, selectedCourse.indexOf(")"));
+    Course course = controller.getCourseById(selectedCourseId);
+    if(course == null){
+        JOptionPane.showMessageDialog(this, "Selected course not found.");
+        return;
+    }
+
+    
+    LessonSelectedFrame lessonFrame = new LessonSelectedFrame(currentI,course, controller);
+    lessonFrame.setVisible(true);
+    this.setVisible(false);
+    
+
+    }//GEN-LAST:event_CreateQuizActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -349,6 +396,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CreateQuiz;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

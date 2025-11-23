@@ -62,12 +62,44 @@
         "status": "APPROVED",
         "lessons": [
             {
+                "quiz": {
+                    "studentAttempts": {},
+                    "questions": [{
+                        "options": [
+                            "abram",
+                            "marc",
+                            "tony",
+                            "sophie"
+                        ],
+                        "correctAnswerIndex": 1,
+                        "questionText": "what is your name?"
+                    }],
+                    "id": "f8c43283-eeca-4f47-879b-74f7a9273913",
+                    "title": "wwwww",
+                    "attempts": 1
+                },
                 "lessonId": "6a37c81f-83de-41c3-ad1d-2517932993c1",
                 "resources": [],
                 "title": "lesson1",
                 "content": "hh"
             },
             {
+                "quiz": {
+                    "studentAttempts": {},
+                    "questions": [{
+                        "options": [
+                            "a",
+                            "b",
+                            "c",
+                            "d"
+                        ],
+                        "correctAnswerIndex": 1,
+                        "questionText": "what is your name?"
+                    }],
+                    "id": "9d8f4a08-ac9c-4c8e-a428-c9efe1663e25",
+                    "title": "quiz2",
+                    "attempts": 2
+                },
                 "lessonId": "9ddf78a3-fed5-45c0-96ed-42ef15d3bb15",
                 "resources": [],
                 "title": "lesson2",

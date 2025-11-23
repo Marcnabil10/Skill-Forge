@@ -25,6 +25,7 @@ public class Course {
     private List <Lesson> lessons;
     private List <String> students;
     private String status;
+   
 
    public Course(String courseId, String title, String description, String instructor) {
     this.courseId = courseId;  
@@ -34,6 +35,7 @@ public class Course {
     this.lessons = new ArrayList<>();
     this.students = new ArrayList<>();
     this.status=STATUS_PENDING;//byebda2 el course pending
+   
 }
     public Course(JSONObject jsonObject) {
         this.courseId = jsonObject.optString("courseId");
@@ -194,7 +196,6 @@ public class Course {
         return status;
     }
     
-    
-    
-    
+ 
+  
 }

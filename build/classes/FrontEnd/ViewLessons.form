@@ -35,7 +35,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="back" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="Markcompleted" min="-2" max="-2" attributes="0"/>
+                      <Component id="TakeQuiz" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
+                      <Component id="MarkCompleted" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -52,7 +54,8 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="back" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="Markcompleted" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="MarkCompleted" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="TakeQuiz" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -121,12 +124,20 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="Markcompleted">
+    <Component class="javax.swing.JButton" name="MarkCompleted">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Mark completed "/>
+        <Property name="text" type="java.lang.String" value="MarkCompleted"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MarkcompletedActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MarkCompletedActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="TakeQuiz">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="take quiz"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TakeQuizActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -57,7 +57,8 @@ public class ViewLessons extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         lessonsTable = new javax.swing.JTable();
         back = new javax.swing.JButton();
-        Markcompleted = new javax.swing.JButton();
+        MarkCompleted = new javax.swing.JButton();
+        TakeQuiz = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,10 +94,17 @@ public class ViewLessons extends javax.swing.JFrame {
             }
         });
 
-        Markcompleted.setText("Mark completed ");
-        Markcompleted.addActionListener(new java.awt.event.ActionListener() {
+        MarkCompleted.setText("MarkCompleted");
+        MarkCompleted.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MarkcompletedActionPerformed(evt);
+                MarkCompletedActionPerformed(evt);
+            }
+        });
+
+        TakeQuiz.setText("take quiz");
+        TakeQuiz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TakeQuizActionPerformed(evt);
             }
         });
 
@@ -115,7 +123,9 @@ public class ViewLessons extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(back)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Markcompleted)))
+                        .addComponent(TakeQuiz)
+                        .addGap(129, 129, 129)
+                        .addComponent(MarkCompleted)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -128,14 +138,15 @@ public class ViewLessons extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(back)
-                    .addComponent(Markcompleted))
+                    .addComponent(MarkCompleted)
+                    .addComponent(TakeQuiz))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MarkcompletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkcompletedActionPerformed
+    private void MarkCompletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkCompletedActionPerformed
         int sel = lessonsTable.getSelectedRow();
     if (sel < 0 || currentCourse == null) {
         JOptionPane.showMessageDialog(this, "Please select a lesson");
@@ -150,17 +161,30 @@ public class ViewLessons extends javax.swing.JFrame {
     } else {
         JOptionPane.showMessageDialog(this, "Failed to mark lesson");
         }
-    }//GEN-LAST:event_MarkcompletedActionPerformed
+
+    }//GEN-LAST:event_MarkCompletedActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         this.dispose();
         dashboard.setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
+    private void TakeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TakeQuizActionPerformed
+          int sel = lessonsTable.getSelectedRow();
+    if (sel < 0 || currentCourse == null) {
+        JOptionPane.showMessageDialog(this, "Please select a lesson");
+        return;
+    }
+    QuizPage qp = new QuizPage();
+    qp.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_TakeQuizActionPerformed
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Markcompleted;
+    private javax.swing.JButton MarkCompleted;
+    private javax.swing.JButton TakeQuiz;
     private javax.swing.JButton back;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
