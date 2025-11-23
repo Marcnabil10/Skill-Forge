@@ -18,6 +18,7 @@ public class LoginController {
     private Student currentStudent;
     private Course currentCourse;
     private Lesson currentLesson;
+    private AnalyticsEngine analyticsEngine;
 
     public LoginController() {
         this.dbManager = new JsonDatabaseManager("users.json", "courses.json");
@@ -25,6 +26,7 @@ public class LoginController {
         this.studentService = new StudentService(dbManager);
         this.instructorService = new InstructorService(dbManager);
         this.adminService = new AdminService(dbManager);
+        this.analyticsEngine = new AnalyticsEngine(null, null, instructorService, studentService);
 
     }
 
@@ -253,4 +255,46 @@ public class LoginController {
     public boolean save(Course course){
         return dbManager.save(course);
     }
+    
+    
+     
+    public AnalyticsEngine getAnalyticsEngine() {
+        return analyticsEngine;
+    }
+    
+    public AnalyticsEngine createCourseAnalyticsEngine(Course course) {
+        return new AnalyticsEngine(course, currentLesson, instructorService, studentService);
+    }
+    
+    public double getCourseCompletionPercentage(Course course) {
+        return analyticsEngine.calculateCompletionPercentage(course);
+    }
+    
+    public double getCourseAverageQuizScore(Course course) {
+      
+        if (course == null || course.getLessons() == null) return 0.0;
+        
+        double totalScore = 0.0;
+        int quizCount = 0;
+        
+        for (Lesson lesson : course.getLessons()) {
+            if (lesson.getQuiz() != null) {
+                AnalyticsEngine lessonAnalytics = new AnalyticsEngine(course, lesson, instructorService, studentService);
+                double lessonAvg = lessonAnalytics.averageScore();
+                if (lessonAvg > 0) {
+                    totalScore += lessonAvg;
+                    quizCount++;
+                }
+            }
+        }
+        
+        return quizCount > 0 ? totalScore / quizCount : 0.0;
+    }
+    
+    public int getEnrolledStudentCount(Course course) {
+        List<Student> students = instructorService.getEnrolledStudents(course.getCourseId());
+        return students != null ? students.size() : 0;
+    }
+
 }
+
