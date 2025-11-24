@@ -159,15 +159,33 @@ public class ViewLessons extends javax.swing.JFrame {
         if (sel < 0 || currentCourse == null) {
             JOptionPane.showMessageDialog(this, "Please select a lesson");
             return;
-        }Lesson selectedLesson = currentCourse.getLessons().get(sel);
-        if (!controller.canAccessLesson(currentStudent, currentCourse, selectedLesson)) {
-            JOptionPane.showMessageDialog(this, "Complete previous lessons first!");
-            return;
-        }boolean success = controller.markLessonCompleted(currentStudent, currentCourse, selectedLesson);
-        if (success) {
-            loadLessons(currentCourse);
         }
-    }//GEN-LAST:event_MarkCompletedActionPerformed
+
+        Lesson L = currentCourse.getLessons().get(sel);
+
+        boolean success = controller.markLessonCompleted(currentStudent, currentCourse, L);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
+            loadLessons(currentCourse);
+
+            if (controller.isCourseCompleted(currentStudent, currentCourse)) {
+                boolean certGenerated = controller.generateCertificate(currentStudent, currentCourse);
+                if (certGenerated) {
+                    controller.updateUser(currentStudent);
+                }
+
+                JOptionPane.showMessageDialog(this,
+                        "Congratulations! You have completed the course!\n" +
+                                "A certificate has been generated and added to your profile.",
+                        "Course Completed",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to mark lesson. Make sure you passed the quiz if required.");
+        }
+    }
+//GEN-LAST:event_MarkCompletedActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         this.dispose();
