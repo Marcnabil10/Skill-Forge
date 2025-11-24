@@ -264,6 +264,24 @@ public class LoginController {
     public double getCourseCompletionPercentage(Course course) {
         return analyticsEngine.calculateCompletionPercentage(course);
     }
+    public boolean generateCertificateForCompletedCourse(Student student, Course course) {
+        try {
+            CertificateGenerator certGenerator = new CertificateGenerator(dbManager);
+            Certificate certificate = certGenerator.generateCertificate(student.getUserId(), course.getCourseId());
+
+            if (certificate != null) {
+                System.out.println("Certificate generated: " + certificate.getCertificateId() + " for course: " + course.getTitle());
+                return true;
+            } else {
+                System.out.println("Certificate not generated - student may not be eligible");
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error generating certificate: " + e.getMessage());
+            return false;
+        }
+    }
     
     public double getCourseAverageQuizScore(Course course) {
       
@@ -293,6 +311,44 @@ public class LoginController {
     public boolean canAccessLesson(Student student, Course course, Lesson lesson) {
         return studentService.canAccessLesson(student, course, lesson);
     }
+    public boolean isCourseCompleted(Student student, Course course) {
+        if (course == null || course.getLessons() == null || course.getLessons().isEmpty()) {
+            return false;
+        }
+
+        for (Lesson lesson : course.getLessons()) {
+            if (!isLessonCompleted(student, course, lesson)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean generateCertificate(Student student, Course course) {
+        if (student == null || course == null) {
+            return false;
+        }
+        if (student.getCertificates() != null) {
+            for (Certificate cert : student.getCertificates()) {
+                if (cert.getCourseId().equals(course.getCourseId())) {
+                    return false;
+                }
+            }
+        }
+        Certificate certificate = new Certificate(
+                generateUniqueId(),
+                student.getUsername(),
+                course.getCourseId(),
+                course.getTitle()
+        );
+        student.addCertificate(certificate);
+        return dbManager.update(student);
+    }
+
+
+
+
+
 
 }
 
