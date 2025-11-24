@@ -235,23 +235,18 @@ public class LoginController {
 
     public String submitCurrentQuiz(List<Integer> answers) {
         Quiz quiz = getCurrentQuiz();
+        if (quiz == null) return "Error: No quiz active";
 
-        if (quiz == null) {
-            return "Error: No quiz active";
-        }
         QuizResult result = quiz.finish(currentStudent.getUsername(), answers);
-
-        dbManager.update(currentCourse);
-
-        String status;
         if (result.isPassed()) {
-            status = "PASSED";
-        } else {
-            status = "FAILED";
+            currentStudent.markLessonCompleted(currentCourse.getCourseId(), currentLesson.getLessonId());
+            dbManager.update(currentStudent);
         }
-
+        dbManager.update(currentCourse);
+        String status = result.isPassed() ? "PASSED" : "FAILED";
         return String.format("Score: %.1f%%\nStatus: %s", result.getScore(), status);
     }
+
     public boolean save(Course course){
         return dbManager.save(course);
     }
@@ -294,6 +289,9 @@ public class LoginController {
     public int getEnrolledStudentCount(Course course) {
         List<Student> students = instructorService.getEnrolledStudents(course.getCourseId());
         return students != null ? students.size() : 0;
+    }
+    public boolean canAccessLesson(Student student, Course course, Lesson lesson) {
+        return studentService.canAccessLesson(student, course, lesson);
     }
 
 }
