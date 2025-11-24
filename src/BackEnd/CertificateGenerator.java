@@ -35,21 +35,28 @@ public class CertificateGenerator {
         if (isEligible(studentId, courseId)){
             Course course = db.getCourseById(courseId);
             Student student = (Student) db.getUserById(studentId);
-            for (Certificate existingCert : student.getCertificates()) {// law 3ando el certificate already
+
+            // Check if certificate already exists
+            for (Certificate existingCert : student.getCertificates()) {
                 if (existingCert.getCourseId().equals(courseId)) {
-                    return existingCert; 
+                    return existingCert;
                 }
             }
             String certId = db.generateUniqueId();
-            Certificate newCert = new Certificate(certId, studentId, courseId, course.getTitle());
+            String issueDate = java.time.LocalDate.now().toString();
+            Certificate newCert = new Certificate(
+                    certId,
+                    student.getUsername(),
+                    course.getCourseId(),
+                    course.getTitle()
+
+            );
+
             student.addCertificate(newCert);
             db.update(student);
-              return newCert;
-           
-            
+            return newCert;
         }
         return null;
-      
     }
     
     
