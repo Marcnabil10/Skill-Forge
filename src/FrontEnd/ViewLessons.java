@@ -165,6 +165,7 @@ public class ViewLessons extends javax.swing.JFrame {
 
         boolean success = controller.markLessonCompleted(currentStudent, currentCourse, L);
         if (success) {
+            controller.updateUser(currentStudent);
             JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
             loadLessons(currentCourse);
 
