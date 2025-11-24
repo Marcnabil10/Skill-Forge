@@ -35,13 +35,21 @@ public class ViewLessons extends javax.swing.JFrame {
         this.currentCourse = course;
         loadLessons(course);
     }
-      
-       private void loadLessons(Course course) {
+
+    private void loadLessons(Course course) {
         DefaultTableModel model = (DefaultTableModel) lessonsTable.getModel();
         model.setRowCount(0);
-        for (Lesson L : course.getLessons()) {
-            boolean done = controller.isLessonCompleted(currentStudent, currentCourse, L);
-            model.addRow(new Object[]{L.getLessonId(), L.getTitle(), done ? "Completed" : "Not completed"});
+        for (Lesson lesson : course.getLessons()) {
+            boolean done = controller.isLessonCompleted(currentStudent, currentCourse, lesson);
+            boolean accessible = controller.canAccessLesson(currentStudent, currentCourse, lesson);
+            String status;
+            if (done) {
+                status = "Completed";
+            } else if (!accessible) {
+                status = "Locked";
+            } else {
+                status = "Not completed";
+            }model.addRow(new Object[]{lesson.getLessonId(), lesson.getTitle(), status});
         }
     }
     /**
@@ -67,18 +75,18 @@ public class ViewLessons extends javax.swing.JFrame {
         jLabel1.setText("Lessons included in your course");
 
         lessonsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Lesson ID", "Title ", "Content"
-            }
+                new Object [][] {
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null}
+                },
+                new String [] {
+                        "Lesson ID", "Title ", "Content"
+                }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                    false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -111,57 +119,54 @@ public class ViewLessons extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(96, 96, 96))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(back)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(TakeQuiz)
-                        .addGap(129, 129, 129)
-                        .addComponent(MarkCompleted)))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(104, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(96, 96, 96))
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(back)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(TakeQuiz)
+                                                .addGap(129, 129, 129)
+                                                .addComponent(MarkCompleted)))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(back)
-                    .addComponent(MarkCompleted)
-                    .addComponent(TakeQuiz))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(back)
+                                        .addComponent(MarkCompleted)
+                                        .addComponent(TakeQuiz))
+                                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MarkCompletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkCompletedActionPerformed
+    private void MarkCompletedActionPerformed(java.awt.event.ActionEvent evt) {
         int sel = lessonsTable.getSelectedRow();
-    if (sel < 0 || currentCourse == null) {
-        JOptionPane.showMessageDialog(this, "Please select a lesson");
-        return;
-    }
-    Lesson L = currentCourse.getLessons().get(sel);
-
-    boolean success = controller.markLessonCompleted(currentStudent, currentCourse, L);
-    if (success) {
-        JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
-        loadLessons(currentCourse); 
-    } else {
-        JOptionPane.showMessageDialog(this, "Failed to mark lesson");
+        if (sel < 0 || currentCourse == null) {
+            JOptionPane.showMessageDialog(this, "Please select a lesson");
+            return;
+        }Lesson selectedLesson = currentCourse.getLessons().get(sel);
+        if (!controller.canAccessLesson(currentStudent, currentCourse, selectedLesson)) {
+            JOptionPane.showMessageDialog(this, "Complete previous lessons first!");
+            return;
+        }boolean success = controller.markLessonCompleted(currentStudent, currentCourse, selectedLesson);
+        if (success) {
+            loadLessons(currentCourse);
         }
-
     }//GEN-LAST:event_MarkCompletedActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -169,18 +174,34 @@ public class ViewLessons extends javax.swing.JFrame {
         dashboard.setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
-    private void TakeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TakeQuizActionPerformed
-          int sel = lessonsTable.getSelectedRow();
-    if (sel < 0 || currentCourse == null) {
-        JOptionPane.showMessageDialog(this, "Please select a lesson");
-        return;
-    }
-    QuizPage qp = new QuizPage();
-    qp.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_TakeQuizActionPerformed
+    private void TakeQuizActionPerformed(java.awt.event.ActionEvent evt) {
+        int sel = lessonsTable.getSelectedRow();
+        if (sel < 0 || currentCourse == null) {
+            JOptionPane.showMessageDialog(this, "Please select a lesson");
+            return;
+        }Lesson selectedLesson = currentCourse.getLessons().get(sel);
+        if (!controller.canAccessLesson(currentStudent, currentCourse, selectedLesson)) {
+            JOptionPane.showMessageDialog(this, "Complete previous lessons first!");
+            return;
+        }
+        if (selectedLesson.getQuiz() != null) {
+            int used = selectedLesson.getQuiz().getAttemptsUsed(currentStudent.getUsername());
+            int max = selectedLesson.getQuiz().getAttempts();
+            if (used >= max) {
+                JOptionPane.showMessageDialog(this,
+                        "You have reached the maximum attempts (" + max + ") for this quiz!");
+                return;
+            }
+        }
 
- 
+        controller.setCurrentSession(currentStudent, currentCourse, selectedLesson);
+        QuizPage qp = new QuizPage(controller, this);
+        qp.setVisible(true);
+        dispose();
+    }
+//GEN-LAST:event_TakeQuizActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton MarkCompleted;
