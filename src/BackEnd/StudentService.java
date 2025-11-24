@@ -61,15 +61,20 @@ public class StudentService {
     }
 
     public boolean markLessonCompleted(Student student, Course course, Lesson lesson) {
-        if (student == null || course == null || lesson == null) {
-            return false;
+        if (student == null || course == null || lesson == null) return false;
+
+        Quiz quiz = lesson.getQuiz();
+        if (quiz != null) {
+            Double score = quiz.getScore(student.getUsername());
+            if (score == null || !quiz.isPassed(score)) {
+                return false;
+            }
         }
-        if (isLessonCompleted(student, course, lesson)) {
-            return false;
-        }
+
         student.markLessonCompleted(course.getCourseId(), lesson.getLessonId());
         return dbManager.update(student);
     }
+
 
 
     public boolean isLessonCompleted(Student student, Course course, Lesson lesson) {
@@ -118,10 +123,18 @@ public class StudentService {
         }
     }
     public boolean canAccessLesson(Student student, Course course, Lesson lesson) {
+        if (student == null || course == null || lesson == null) {
+            return false;
+        }
         List<Lesson> lessons = course.getLessons();
-        int index = lessons.indexOf(lesson);
-        if (index == 0) return true;
-        Lesson previous = lessons.get(index - 1);
-        return isLessonCompleted(student, course, previous);
-    }
-}
+        int currentIndex = lessons.indexOf(lesson);
+        if (currentIndex == 0) {
+            return true;
+        }
+        for (int i = 0; i < currentIndex; i++) {
+            Lesson previousLesson = lessons.get(i);
+            if (!isLessonCompleted(student, course, previousLesson)) {
+                return false;
+            }
+        }return true;
+    }}
