@@ -76,6 +76,13 @@ public class Course {
                     for (String key : at.keySet()) {
                         quiz.getStudentAttempts().put(key, at.getInt(key));
                     }
+                    if (q.has("studentScores")) {
+                        JSONObject ss = q.getJSONObject("studentScores");
+                        for (String key : ss.keySet()) {
+                            quiz.getStudentScores().put(key, ss.getDouble(key));
+                        }
+                    }
+
 
                     lesson.setQuiz(quiz);
                 }
@@ -171,6 +178,7 @@ public class Course {
                 }
                 quizJson.put("questions", qArr);
                 quizJson.put("studentAttempts", new JSONObject(q.getStudentAttempts()));
+                quizJson.put("studentScores", new JSONObject(q.getStudentScores()));
                 lessonJson.put("quiz", quizJson);
             }
 
