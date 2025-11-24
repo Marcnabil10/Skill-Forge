@@ -143,10 +143,27 @@ public class LoginController {
     public ArrayList<Course> getMyCourses(String instructorId) {
         return new ArrayList<>(instructorService.getMyCourses(instructorId));
     }
-
     public boolean markLessonCompleted(Student student, Course course, Lesson lesson) {
-        return studentService.markLessonCompleted(student, course, lesson);
+        if (student == null || course == null || lesson == null) return false;
+        Quiz quiz = lesson.getQuiz();
+        if (quiz != null) {
+            Double score = quiz.getScore(student.getUsername());
+            if (score == null || !quiz.isPassed(score)) {
+                return false;
+            }
+        }
+        student.markLessonCompleted(course.getCourseId(), lesson.getLessonId());
+        boolean saved = dbManager.update(student);
+        if (!saved) {
+            List<String> list = student.getProgress().get(course.getCourseId());
+            if (list != null) {
+                list.remove(lesson.getLessonId());
+            }
+        }
+
+        return saved;
     }
+
 
     public boolean isLessonCompleted(Student student, Course course, Lesson lesson) {
         return studentService.isLessonCompleted(student, course, lesson);
