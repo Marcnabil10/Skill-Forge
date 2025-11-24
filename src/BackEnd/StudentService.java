@@ -20,7 +20,7 @@ public class StudentService {
     }
     
     public boolean enrollInCourse(Student student, Course course) {
-       JOptionPane.showMessageDialog(null, "Enrolling student " + student.getUsername() + " in course " + course.getTitle());
+       JOptionPane.showMessageDialog(null, "Enrolling student " + student.getUserId() + " in course " + course.getCourseId());
         
         if (!isStudentEnrolled(student, course.getCourseId())) {
             student.addEnrolledCourse(course);
